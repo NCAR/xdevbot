@@ -1,0 +1,24 @@
+/* Move down content because we have a fixed navbar that is 3.5rem tall */
+body {
+  padding-top: 3.5rem;
+}
+
+.bg-img {
+  background-image: url("../img/background.jpg");
+  background-size: cover;
+  position: relative;
+}
+
+.has-overlay {
+  z-index: 0;
+}
+
+.overlay {
+  background-color: rgba(0, 0, 0, 0.6);
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  z-index: -1;
+}

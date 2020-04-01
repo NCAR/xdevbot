@@ -1,0 +1,13 @@
+.idea/
+.vscode/
+
+*.pyc
+__pycache__
+
+.pytest_cache/
+.coverage
+
+dist/
+build/
+*.egg-info/
+.eggs

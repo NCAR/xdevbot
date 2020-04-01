@@ -1,0 +1,18 @@
+name: aiohttp_app_template
+channels:
+  - conda-forge
+dependencies:
+  - python=3.8
+  - aiohttp
+  - aiohttp-jinja2
+  - click
+  - bs4
+  - pytest
+  - pytest-aiohttp
+  - pytest-cov
+  - codecov
+  - pip
+  - pip:
+    - motor
+    - dnspython
+    - mockupdb
