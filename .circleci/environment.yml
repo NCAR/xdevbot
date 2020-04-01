@@ -1,4 +1,4 @@
-name: aiohttp_app_template
+name: xdevbot
 channels:
   - conda-forge
 dependencies:
