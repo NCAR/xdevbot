@@ -1,1 +1,1 @@
-web: python -m myapp --port $PORT --mongouri $MONGODB_URI
+web: python -m xdevbot --port $PORT --mongouri $MONGODB_URI
