@@ -1,29 +1,10 @@
 |CircleCI| |Linting| |Coverage| |Docs| |License| |PyPI| |Heroku|
 
-AIOHTTP Application Template
-============================
+The NCAR Xdev Bot
+=================
 
-This template repository is meant to serve as a starting point for anyone wanting to build an ``aiohttp``-based
-web application and run that web application on Heroku (or a similar service).  It provides basic structure and
-setup for a web application using a MongoDB database with Python ``motor``, and the base code is set up with
-``pytest`` unit testing and continuous integration with CircleCI (and GitHub Actions).
-
-How to use this template
-------------------------
-
-You should just be able to create your own repository based on this template by just choosing this template
-during the new repository creation form on GitHub.  You will probably want to change the name of this application
-to something more suited to your needs.  By default, the name of the web application (and the PyPI package, and
-the name of the Python package you might import) is determined *solely* from the name of the main package
-directory.  Currently, it is ``myapp``, so all you would need to do is change the name of this directory.
-
-When creating a new repository from this template, I highly recommend that you select the *"Include all branches"*
-radio button.  If you do this, you will automatically get a working Sphinx deployment of the application
-documentation on GitHub Pages.  If you do not do this, you may have to manually fix some settings for your
-GitHub Pages site to work properly (e.g., manually adding a ``.nojekyll`` file to the ``gh-pages`` branch).
-
-Some notes on the design
-------------------------
+This Bot is based on the ``ncar-xdev/aiohttp_app_template`` template for a simple
+web application based on ``aiohttp`` and ``motor``, using a MongoDB database.
 
 aiohttp
 ~~~~~~~
@@ -95,15 +76,15 @@ To run this application locally, you need simply run:
 
 .. code-block:: bash
 
-   $ python -m myapp
+   $ python -m xdevbot
 
 However, this application uses ``click`` for its CLI, which means you can get the
 full help description with:
 
 .. code-block:: bash
 
-   $ python -m myapp --help
-   Usage: myapp [OPTIONS]
+   $ python -m xdevbot --help
+   Usage: xdevbot [OPTIONS]
 
    Options:
      --version          Show the version and exit.
@@ -117,30 +98,30 @@ full help description with:
 
 
 
-.. |CircleCI| image:: https://img.shields.io/circleci/build/github/ncar-xdev/aiohttp_app_template?label=tests
-    :target: https://circleci.com/gh/ncar-xdev/aiohttp_app_template
+.. |CircleCI| image:: https://img.shields.io/circleci/build/github/ncar-xdev/xdevbot?label=tests
+    :target: https://circleci.com/gh/ncar-xdev/xdevbot
     :alt: Tests
 
-.. |Linting| image:: https://img.shields.io/github/workflow/status/ncar-xdev/aiohttp_app_template/code-style?label=linting
-    :target: https://github.com/ncar-xdev/aiohttp_app_template/actions?query=workflow%3Acode-style
+.. |Linting| image:: https://img.shields.io/github/workflow/status/ncar-xdev/xdevbot/code-style?label=linting
+    :target: https://github.com/ncar-xdev/xdevbot/actions?query=workflow%3Acode-style
     :alt: Linting
 
-.. |Coverage| image:: https://img.shields.io/codecov/c/gh/ncar-xdev/aiohttp_app_template
-    :target: https://codecov.io/gh/ncar-xdev/aiohttp_app_template
+.. |Coverage| image:: https://img.shields.io/codecov/c/gh/ncar-xdev/xdevbot
+    :target: https://codecov.io/gh/ncar-xdev/xdevbot
     :alt: Coverage
 
-.. |Docs| image:: https://img.shields.io/website?down_color=red&down_message=offline&label=docs&up_color=green&up_message=online&url=https%3A%2F%2Fncar-xdev.github.io%2Faiohttp_app_template
-    :target: https://ncar-xdev.github.io/aiohttp_app_template
+.. |Docs| image:: https://img.shields.io/website?down_color=red&down_message=offline&label=docs&up_color=green&up_message=online&url=https%3A%2F%2Fncar-xdev.github.io%2Fxdevbot
+    :target: https://ncar-xdev.github.io/xdevbot
     :alt:
 
-.. |License| image:: https://img.shields.io/github/license/ncar-xdev/aiohttp_app_template
+.. |License| image:: https://img.shields.io/github/license/ncar-xdev/xdevbot
     :target: https://www.apache.org/licenses/LICENSE-2.0
     :alt: License
 
-.. |PyPI| image:: https://img.shields.io/pypi/v/abcdefghijklmnop?label=pypi
-    :target: https://pypi.org/project/abcdefghijklmnop
+.. |PyPI| image:: https://img.shields.io/pypi/v/xdevbot?label=pypi
+    :target: https://pypi.org/project/xdevbot
     :alt: PyPI
 
-.. |Heroku| image:: https://img.shields.io/website?down_color=red&down_message=offline&label=heroku&up_color=green&up_message=online&url=https%3A%2F%2Fmyapp.herokuapp.com%2F
-    :target: https://myapp.herokuapp.com
+.. |Heroku| image:: https://img.shields.io/website?down_color=red&down_message=offline&label=heroku&up_color=green&up_message=online&url=https%3A%2F%2Fxdevbot.herokuapp.com%2F
+    :target: https://xdevbot.herokuapp.com
     :alt: Heroku
