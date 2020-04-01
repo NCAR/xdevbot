@@ -19,14 +19,14 @@ setup(
     install_requires=install_requires,
     author='Kevin Paul',
     author_email='kpaul@ucar.edu',
-    description='A template aiohttp application repository',
+    description='The NCAR Xdev Team Bot',
     long_description=long_description,
     keywords='aiohttp mongodb motor ',
-    url='http://example.com/HelloWorld/',  # project home page, if any
+    url='https://github.com/ncar-xdev/xdevbot',
     project_urls={
-        'Source Code': 'https://github.com/ncar-xdev/aiohttp_app_template',
-        'Documentation': 'https://ncar-xdev.github.io/aiohttp_app_template',
-        'Bug Tracker': 'https://github.com/ncar-xdev/aiohttp_app_template/issues',
+        'Source Code': 'https://github.com/ncar-xdev/xdevbot',
+        'Documentation': 'https://ncar-xdev.github.io/xdevbot',
+        'Bug Tracker': 'https://github.com/ncar-xdev/xdevbot/issues',
     },
     classifiers=[
         'License :: OSI Approved :: Apache Software License',
