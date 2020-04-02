@@ -98,15 +98,15 @@ full help description with:
 
 
 
-.. |CircleCI| image:: https://img.shields.io/circleci/build/github/ncar-xdev/xdevbot?label=tests
+.. |CircleCI| image:: https://badgen.net/circleci/github/ncar-xdev/xdevbot?label=tests
     :target: https://circleci.com/gh/ncar-xdev/xdevbot
     :alt: Tests
 
-.. |Linting| image:: https://img.shields.io/github/workflow/status/ncar-xdev/xdevbot/code-style?label=linting
+.. |Linting| image:: https://badgen.net/github/status/ncar-xdev/xdevbot
     :target: https://github.com/ncar-xdev/xdevbot/actions?query=workflow%3Acode-style
     :alt: Linting
 
-.. |Coverage| image:: https://img.shields.io/codecov/c/gh/ncar-xdev/xdevbot
+.. |Coverage| image:: https://badgen.net/codecov/c/github/ncar-xdev/xdevbot
     :target: https://codecov.io/gh/ncar-xdev/xdevbot
     :alt: Coverage
 
@@ -114,11 +114,11 @@ full help description with:
     :target: https://ncar-xdev.github.io/xdevbot
     :alt:
 
-.. |License| image:: https://img.shields.io/github/license/ncar-xdev/xdevbot
+.. |License| image:: https://badgen.net/github/license/ncar-xdev/xdevbot
     :target: https://www.apache.org/licenses/LICENSE-2.0
     :alt: License
 
-.. |PyPI| image:: https://img.shields.io/pypi/v/xdevbot?label=pypi
+.. |PyPI| image:: https://badgen.net/pypi/v/xdevbot?label=pypi
     :target: https://pypi.org/project/xdevbot
     :alt: PyPI
 
