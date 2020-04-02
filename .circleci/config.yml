@@ -4,14 +4,14 @@ workflows:
   version: 2
   default:
     jobs:
-      - tests
+      - tests:
+          filters:
+            branches:
+              ignore:
+                - gh-pages
 
 jobs:
   tests:
-    filters:
-      branches:
-        only:
-          - master
     docker:
       - image: continuumio/miniconda3:latest
     environment:
