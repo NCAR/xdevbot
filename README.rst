@@ -1,4 +1,4 @@
-|CircleCI| |GitHub| |Coverage| |License| |PyPI| |Heroku|
+|CircleCI| |GitHub| |Coverage| |License| |PyPI|
 
 The NCAR Xdev Bot
 =================
@@ -117,7 +117,3 @@ full help description with:
 .. |PyPI| image:: https://badgen.net/pypi/v/xdevbot?label=pypi
     :target: https://pypi.org/project/xdevbot
     :alt: PyPI
-
-.. |Heroku| image:: https://img.shields.io/website?down_color=red&down_message=offline&label=heroku&up_color=green&up_message=online&url=https%3A%2F%2Fxdevbot.herokuapp.com%2F
-    :target: https://xdevbot.herokuapp.com
-    :alt: Heroku
