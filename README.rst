@@ -102,7 +102,7 @@ full help description with:
     :target: https://circleci.com/gh/ncar-xdev/xdevbot
     :alt: Tests
 
-.. |Linting| image:: https://badgen.net/github/status/ncar-xdev/xdevbot
+.. |Linting| image:: https://github.com/nacr-xdev/xdevbot/workflows/code-style/badge.svg
     :target: https://github.com/ncar-xdev/xdevbot/actions?query=workflow%3Acode-style
     :alt: Linting
 
@@ -110,7 +110,7 @@ full help description with:
     :target: https://codecov.io/gh/ncar-xdev/xdevbot
     :alt: Coverage
 
-.. |Docs| image:: https://img.shields.io/website?down_color=red&down_message=offline&label=docs&up_color=green&up_message=online&url=https%3A%2F%2Fncar-xdev.github.io%2Fxdevbot
+.. |Docs| image:: https://github.com/nacr-xdev/xdevbot/workflows/publish-docs/badge.svg
     :target: https://ncar-xdev.github.io/xdevbot
     :alt:
 
