@@ -98,11 +98,11 @@ full help description with:
 
 
 
-.. |CircleCI| image:: https://badgen.net/circleci/github/ncar-xdev/xdevbot
+.. |CircleCI| image:: https://badgen.net/circleci/github/ncar-xdev/xdevbot/master
     :target: https://circleci.com/gh/ncar-xdev/xdevbot
     :alt: Tests
 
-.. |GitHub| image:: https://badgen.net/github/status/ncar-xdev/xdevbot/master
+.. |GitHub| image:: https://badgen.net/github/checks/ncar-xdev/xdevbot/master
     :target: https://github.com/ncar-xdev/xdevbot/actions?query=workflow%3Acode-style
     :alt: GitHub
 
