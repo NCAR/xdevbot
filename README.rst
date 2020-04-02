@@ -1,4 +1,4 @@
-|CircleCI| |Linting| |Coverage| |Docs| |License| |PyPI| |Heroku|
+|CircleCI| |GitHub| |Coverage| |License| |PyPI| |Heroku|
 
 The NCAR Xdev Bot
 =================
@@ -98,21 +98,17 @@ full help description with:
 
 
 
-.. |CircleCI| image:: https://badgen.net/circleci/github/ncar-xdev/xdevbot?label=tests
+.. |CircleCI| image:: https://badgen.net/circleci/github/ncar-xdev/xdevbot
     :target: https://circleci.com/gh/ncar-xdev/xdevbot
     :alt: Tests
 
-.. |Linting| image:: https://github.com/nacr-xdev/xdevbot/workflows/code-style/badge.svg
+.. |GitHub| image:: https://badgen.net/github/status/ncar-xdev/xdevbot/master
     :target: https://github.com/ncar-xdev/xdevbot/actions?query=workflow%3Acode-style
-    :alt: Linting
+    :alt: GitHub
 
 .. |Coverage| image:: https://badgen.net/codecov/c/github/ncar-xdev/xdevbot
     :target: https://codecov.io/gh/ncar-xdev/xdevbot
     :alt: Coverage
-
-.. |Docs| image:: https://github.com/nacr-xdev/xdevbot/workflows/publish-docs/badge.svg
-    :target: https://ncar-xdev.github.io/xdevbot
-    :alt:
 
 .. |License| image:: https://badgen.net/github/license/ncar-xdev/xdevbot
     :target: https://www.apache.org/licenses/LICENSE-2.0
