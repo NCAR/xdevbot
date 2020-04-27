@@ -22,3 +22,38 @@ body {
   right: 0;
   z-index: -1;
 }
+
+span.X {
+  font-family: 'Saira Stencil One', sans-serif;
+}
+
+span.devbot {
+  font-family: 'Audiowide', sans-serif;
+}
+
+.ncar-logo {
+  display: block;
+  margin-right: auto;
+  width: 409px;
+  padding-bottom: 15px;
+}
+
+.copyright {
+  width: 365px;
+  margin-right: auto;
+}
+
+.nsf-logo {
+  display: block;
+  width: 70px;
+}
+
+.nsf-text {
+  width: 100%;
+}
+
+footer {
+  margin: 0;
+  padding: 15px;
+  font-size: small;
+}
