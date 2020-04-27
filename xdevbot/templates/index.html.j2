@@ -62,9 +62,9 @@
     </div>
 
     <div class="container">
-      <div class="row">
+      <div class="row justify-content-center">
         {% set deftext="Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui." %}
-        {% for column in columns|default([("[Subheading]", "4", deftext)]) %}
+        {% for column in columns|default([("[Subheading]", "8", deftext)]) %}
         {% set colheading=column[0] %}
         {% set colwidth=column[1] %}
         {% set coltext=column[2] %}
@@ -94,12 +94,15 @@
                 Apache 2.0</p>
             </div>
         </div>
-        <div class="row mt-3 pt-3 border-top">
+        <div class="row pt-3 border-top">
             <div class="col-auto">
                 <a href="https://nsf.gov/"><img src="{{ url('static', filename='img/footer-logo-nsf.png') }}" alt="NSF" class="nsf-logo"></a>
             </div>
             <div class="col">
-                <p class="nsf-text">This material is based upon work supported by the National Center for Atmospheric Research, a major facility sponsored by the National Science Foundation and managed by the University Corporation for Atmospheric Research. Any opinions, findings and conclusions or recommendations expressed in this material do not necessarily reflect the views of the National Science Foundation.</p>
+                <p class="nsf-text">This material is based upon work supported by the National Center for Atmospheric Research, a major facility
+                sponsored by the National Science Foundation and managed by the University Corporation for Atmospheric Research. Any opinions,
+                findings and conclusions or recommendations expressed in this material do not necessarily reflect the views of the National
+                Science Foundation.</p>
             </div>
             </p>
         </div>
