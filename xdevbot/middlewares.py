@@ -4,11 +4,11 @@ from aiohttp import web
 
 
 async def handle_404(request):
-    return aiohttp_jinja2.render_template('404.html', request, {})
+    return aiohttp_jinja2.render_template('404.html.j2', request, {})
 
 
 async def handle_500(request):
-    return aiohttp_jinja2.render_template('500.html', request, {})
+    return aiohttp_jinja2.render_template('500.html.j2', request, {})
 
 
 def create_error_middleware(overrides):
