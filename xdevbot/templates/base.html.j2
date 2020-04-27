@@ -17,9 +17,9 @@
     <link rel="manifest" href="{{ url('static', filename='site.webmanifest') }}">
 
     <!-- Custom Head Content -->
-    {% block head %}
+    {% block extra_head %}
     <title>{{ title|default("[Title]", true) }}</title>
-    {% endblock %}
+    {% endblock extra_head %}
   </head>
   <body>
 
@@ -57,7 +57,7 @@
         </form>
       </div>
     </nav>
-    {% endblock %}
+    {% endblock header %}
 
     <!-- Custom Main Content -->
     {% block main %}
@@ -96,14 +96,14 @@
       </div> <!-- /container -->
 
     </main>
-    {% endblock %}
+    {% endblock main %}
 
     <!-- Custom Footer Content -->
     {% block footer %}
     <footer class="container">
       <p>&copy; {{ copyright|default("[Company]", true) }} 2020</p>
     </footer>
-    {% endblock %}
+    {% endblock footer %}
 
     <!-- Optional JavaScript -->
     <!-- For Bootstrap: jQuery first, then Popper.js, then Bootstrap JS -->
