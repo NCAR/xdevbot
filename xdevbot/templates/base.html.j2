@@ -25,23 +25,23 @@
     <title>{{ title|default("Xdevbot", true) }}</title>
     {% endblock extra_head %}
   </head>
-  <body class="d-flex flex-column">
+  <body class="d-flex flex-column full-height">
 
     <!-- Custom Header Section -->
     {% block header %}
     <nav class="navbar navbar-expand-md navbar-dark bg-dark">
-      <a class="navbar-brand" href="#"><span class="X">X</span><span class="devbot">devbot</span></a>
+      <a class="navbar-brand" href="/"><span class="X">X</span><span class="devbot">devbot</span></a>
       <span class="mr-auto"></span>
-      <a class="btn btn-secondary btn-sm my-2 my-sm-0" href="config">Configure</a>
+      <a class="btn btn-secondary btn-sm my-2 my-sm-0" href="/configure">Configure</a>
     </nav>
     {% endblock header %}
 
     <!-- Custom Main Content -->
     {% block main %}
-    <main class="flex-fill pb-4" role="main">
+    <main class="flex-fill" role="main">
 
       <!-- Main jumbotron for a primary marketing message or call to action -->
-      <div class="jumbotron bg-img has-overlay">
+      <div class="jumbotron mb-0 bg-img has-overlay">
         <div class="overlay"></div>
         <div class="container text-light">
           <h1 class="display-3"><span class="X">X</span><span class="devbot">devbot</span></h1>
@@ -57,7 +57,7 @@
         </div>
       </div>
 
-      <div class="container">
+      <div class="container mt-4 mb-3">
         <div class="row justify-content-center">
           {% set deftext="Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui." %}
           {% for column in columns|default([("[Subheading]", "8", deftext)]) %}

@@ -1,1 +1,27 @@
 {% extends "base.html.j2" %}
+
+{% block header %}
+{% endblock header %}
+
+{% block main %}
+<main class="flex-fill" role="main">
+
+  <!-- Main jumbotron for a primary marketing message or call to action -->
+  <div class="jumbotron full-height mb-0 bg-img has-overlay">
+    <div class="overlay"></div>
+    <div class="container text-light">
+      <h1 class="display-3"><span class="X">X</span><span class="devbot">devbot</span></h1>
+      <p>This is the GitHub helper "bot" for the
+        <a class="text-light" href="https://ncar.github.io/xdev">Experimental Development Team (Xdev)</a>
+        at the
+        <a class="text-light" href="https://ncar.ucar.edu">National Center for Atmospheric Research</a>.
+        This bot watches specified GitHub repositories and collects Issue and Pull Request
+        information for display on the Xdev Project Board.  You must be an approved member
+        of the NCAR Xdev GitHub Organization to access and configure this bot.
+      </p>
+      <p><a class="btn btn-primary btn-sm" href="https://ncar.github.io/xdev" role="button">About Xdev</a></p>
+    </div>
+  </div>
+
+</main>
+{% endblock main %}
