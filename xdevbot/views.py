@@ -17,6 +17,5 @@ async def setup(request):
     return {}
 
 
-@aiohttp_jinja2.template('github.html.j2')
 async def github(request):
     return web.Response(text='OK')
