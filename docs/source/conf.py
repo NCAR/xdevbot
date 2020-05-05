@@ -17,7 +17,7 @@
 
 # -- Project information -----------------------------------------------------
 
-project = 'aiohttp_app_template'
+project = 'Xdevbot'
 copyright = '2020, University Corporation for Atmospheric Research'
 author = 'Kevin Paul'
 
