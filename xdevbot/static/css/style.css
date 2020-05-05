@@ -1,10 +1,19 @@
 /* Move down content because we have a fixed navbar that is 3.5rem tall */
-.full-height {
+.min-ht-100vh {
   min-height: 100vh;
+}
+
+.border-main {
+  border: 1px solid #e0e0e0;
+  border-radius: 0.6em;
 }
 
 .flex-fill {
   flex: 1 1 auto;
+}
+
+.bg-lightgrey {
+  background-color: #f0f0f0;
 }
 
 .bg-img {
@@ -18,7 +27,7 @@
 }
 
 .overlay {
-  background-color: rgba(0, 0, 0, 0.6);
+  background-color: rgba(0, 0, 0, 0.65);
   position: absolute;
   top: 0;
   left: 0;
@@ -43,7 +52,7 @@ span.devbot {
 }
 
 .copyright {
-  width: 365px;
+  width: 100%;
   margin-right: auto;
 }
 
@@ -54,10 +63,4 @@ span.devbot {
 
 .nsf-text {
   width: 100%;
-}
-
-footer {
-  margin: 0;
-  padding: 15px;
-  font-size: small;
 }

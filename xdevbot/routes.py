@@ -1,13 +1,15 @@
 import pathlib
 
-from .views import configure, landing
+from .views import auth, github, home, setup
 
 PROJECT_ROOT = pathlib.Path(__file__).parent
 
 
 def setup_routes(app):
-    app.router.add_get('/', landing)
-    app.router.add_get('/configure', configure)
+    app.router.add_get('/', home)
+    app.router.add_get('/auth', auth)
+    app.router.add_get('/setup', setup)
+    app.router.add_post('/github', github)
     setup_static_routes(app)
 
 
