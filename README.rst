@@ -52,22 +52,22 @@ full help description with:
 
 
 
-.. |CircleCI| image:: https://badgen.net/circleci/github/ncar-xdev/xdevbot/master
+.. |CircleCI| image:: https://badgen.net/circleci/github/ncar-xdev/xdevbot/master?012345
     :target: https://circleci.com/gh/ncar-xdev/xdevbot
     :alt: Tests
 
-.. |GitHub| image:: https://badgen.net/github/checks/ncar-xdev/xdevbot/master
+.. |GitHub| image:: https://badgen.net/github/checks/ncar-xdev/xdevbot/master?012345
     :target: https://github.com/ncar-xdev/xdevbot/actions?query=workflow%3Acode-style
     :alt: GitHub
 
-.. |Coverage| image:: https://badgen.net/codecov/c/github/ncar-xdev/xdevbot
+.. |Coverage| image:: https://badgen.net/codecov/c/github/ncar-xdev/xdevbot?012345
     :target: https://codecov.io/gh/ncar-xdev/xdevbot
     :alt: Coverage
 
-.. |License| image:: https://badgen.net/github/license/ncar-xdev/xdevbot
+.. |License| image:: https://badgen.net/github/license/ncar-xdev/xdevbot?012345
     :target: https://www.apache.org/licenses/LICENSE-2.0
     :alt: License
 
-.. |PyPI| image:: https://badgen.net/pypi/v/xdevbot?label=pypi
+.. |PyPI| image:: https://badgen.net/pypi/v/xdevbot?label=pypi&012345
     :target: https://pypi.org/project/xdevbot
     :alt: PyPI
