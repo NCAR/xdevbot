@@ -1,0 +1,147 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>The NCAR Xdevbot &#8212; aiohttp_app_template  documentation</title>
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/language_data.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="prev" title="Welcome to XdevBot’s documentation!" href="index.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <p><a class="reference external" href="https://circleci.com/gh/ncar-xdev/xdevbot"><img alt="Tests" src="https://badgen.net/circleci/github/ncar-xdev/xdevbot/master" /></a> <a class="reference external" href="https://github.com/ncar-xdev/xdevbot/actions?query=workflow%3Acode-style"><img alt="GitHub" src="https://badgen.net/github/checks/ncar-xdev/xdevbot/master" /></a> <a class="reference external" href="https://codecov.io/gh/ncar-xdev/xdevbot"><img alt="Coverage" src="https://badgen.net/codecov/c/github/ncar-xdev/xdevbot" /></a> <a class="reference external" href="https://www.apache.org/licenses/LICENSE-2.0"><img alt="License" src="https://badgen.net/github/license/ncar-xdev/xdevbot" /></a> <a class="reference external" href="https://pypi.org/project/xdevbot"><img alt="PyPI" src="https://badgen.net/pypi/v/xdevbot?label=pypi" /></a></p>
+<div class="section" id="the-ncar-xdevbot">
+<h1>The NCAR Xdevbot<a class="headerlink" href="#the-ncar-xdevbot" title="Permalink to this headline">¶</a></h1>
+<p>This Bot is based on the <code class="docutils literal notranslate"><span class="pre">ncar-xdev/aiohttp_app_template</span></code> template for a simple
+web application based on <code class="docutils literal notranslate"><span class="pre">aiohttp</span></code> and <code class="docutils literal notranslate"><span class="pre">motor</span></code>, using a MongoDB database.</p>
+<div class="section" id="installation">
+<h2>Installation<a class="headerlink" href="#installation" title="Permalink to this headline">¶</a></h2>
+<p>This application can be installed with <code class="docutils literal notranslate"><span class="pre">pip</span></code> or directly with <code class="docutils literal notranslate"><span class="pre">setup.py</span></code>:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ python setup.py install
+</pre></div>
+</div>
+<p>or</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ pip install .
+</pre></div>
+</div>
+</div>
+<div class="section" id="running-locally">
+<h2>Running Locally<a class="headerlink" href="#running-locally" title="Permalink to this headline">¶</a></h2>
+<p>To run this application locally, you need simply run:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ python -m xdevbot
+</pre></div>
+</div>
+<p>However, this application uses <code class="docutils literal notranslate"><span class="pre">click</span></code> for its CLI, which means you can get the
+full help description with:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ python -m xdevbot --help
+Usage: xdevbot <span class="o">[</span>OPTIONS<span class="o">]</span>
+
+Options:
+  --version          Show the version and exit.
+  --host TEXT        Server IP address
+  --port INTEGER     Server port number
+  --logging INTEGER  Logging output level
+  --mongouri TEXT    MongoDB URI
+  --mongodb TEXT     MongoDB Database Name
+  --config PATH      User-defined configuration file location
+  --help             Show this message and exit.
+</pre></div>
+</div>
+</div>
+</div>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="index.html">aiohttp_app_template</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<p class="caption"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">The NCAR Xdevbot</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#installation">Installation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#running-locally">Running Locally</a></li>
+</ul>
+</li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="index.html" title="previous chapter">Welcome to XdevBot’s documentation!</a></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2020, University Corporation for Atmospheric Research.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 3.0.3</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="_sources/readme.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>
