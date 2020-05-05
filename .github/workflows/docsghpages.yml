@@ -46,3 +46,4 @@ jobs:
           FOLDER: docs/build/html
           CLEAN: true
           SSH: true
+          COMMIT_MESSAGE: "[ci skip] Deploy to GitHub Pages"
