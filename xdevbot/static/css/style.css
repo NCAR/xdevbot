@@ -1,8 +1,4 @@
 /* Move down content because we have a fixed navbar that is 3.5rem tall */
-body {
-  padding: 0;
-}
-
 .min-ht-100vh {
   min-height: 100vh;
 }

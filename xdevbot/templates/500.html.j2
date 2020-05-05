@@ -1,8 +1,8 @@
 {% extends "base.html.j2" %}
 
-{% block head %}
+{% block extra_head %}
 <title>500 Internal Server Error</title>
-{% endblock %}
+{% endblock extra_head %}
 
 {% block main %}
 <main class="flex-fill min-ht-100vh" role="main">
@@ -12,4 +12,4 @@
     <p>There has been an error on the server.  We are sorry for the inconvenience.  Go to the <a href="/">Home Page.</a></p>
   </div>
 </main>
-{% endblock %}
+{% endblock main %}

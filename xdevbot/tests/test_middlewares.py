@@ -7,7 +7,7 @@ from ..cli import init_app
 async def test_404(aiohttp_client, loop):
     app = await init_app()
     client = await aiohttp_client(app)
-    resp = await client.get('*&!@#$%')
+    resp = await client.get('/*&!@#$%')
     assert resp.status == 200
 
     html_doc = await resp.text()
