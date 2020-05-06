@@ -15,6 +15,17 @@ async def test_404(aiohttp_client, loop):
     assert soup.title.string == '404 Page Not Found'
 
 
+async def test_405(aiohttp_client, loop):
+    app = await init_app()
+    client = await aiohttp_client(app)
+    resp = await client.get('/github')
+    assert resp.status == 200
+
+    html_doc = await resp.text()
+    soup = BeautifulSoup(html_doc, 'html.parser')
+    assert soup.title.string == '404 Page Not Found'
+
+
 async def test_500(aiohttp_client, loop):
     app = await init_app()
 
