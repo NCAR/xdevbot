@@ -56,11 +56,11 @@ full help description with:
     :target: https://circleci.com/gh/NCAR/xdevbot
     :alt: Tests
 
-.. |GitHub| image:: https://badgen.net/github/checks/NCAR/xdevbot/master?012345
+.. |GitHub| image:: https://badgen.net/github/checks/NCAR/xdevbot/master
     :target: https://github.com/NCAR/xdevbot/actions?query=workflow%3Acode-style
     :alt: GitHub
 
-.. |Coverage| image:: https://badgen.net/codecov/c/github/NCAR/xdevbot?012345
+.. |Coverage| image:: https://badgen.net/codecov/c/github/NCAR/xdevbot
     :target: https://codecov.io/gh/NCAR/xdevbot
     :alt: Coverage
 
