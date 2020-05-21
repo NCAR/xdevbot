@@ -45,6 +45,20 @@ def test_cli_mongodb():
     assert ctx.params == params
 
 
+def test_cli_ghuser():
+    params = DEFAULT_CONFIG.copy()
+    params['ghuser'] = 'botuser'
+    ctx = cli.make_context(cli.name, args=['--ghuser', params['ghuser']], auto_envvar_prefix=NAME)
+    assert ctx.params == params
+
+
+def test_cli_ghtoken():
+    params = DEFAULT_CONFIG.copy()
+    params['ghtoken'] = 'i7ar4bioy7bo7ar40p923aawr3v'
+    ctx = cli.make_context(cli.name, args=['--ghtoken', params['ghtoken']], auto_envvar_prefix=NAME)
+    assert ctx.params == params
+
+
 def test_cli_env(cli_env):
     params = DEFAULT_CONFIG.copy()
     params['host'] = 'http://127.0.0.1'

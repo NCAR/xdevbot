@@ -19,6 +19,8 @@ DEFAULT_CONFIG = {
     'logging': 'INFO',
     'mongouri': None,
     'mongodb': 'xdevbot',
+    'ghuser': None,
+    'ghtoken': None,
 }
 
 
@@ -55,6 +57,8 @@ def config_callback(ctx, config_param, config_file):
 @click.option(
     '--mongodb', default=DEFAULT_CONFIG['mongodb'], type=str, help='MongoDB Database Name'
 )
+@click.option('--ghuser', default=DEFAULT_CONFIG['ghuser'], type=str, help='GitHub Username')
+@click.option('--ghtoken', default=DEFAULT_CONFIG['ghtoken'], type=str, help='GitHub User Token')
 @click.option(
     '--config',
     default=None,
