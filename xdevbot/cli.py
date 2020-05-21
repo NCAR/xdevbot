@@ -18,7 +18,7 @@ DEFAULT_CONFIG = {
     'port': None,
     'logging': 'INFO',
     'mongouri': None,
-    'mongodb': 'db',
+    'mongodb': 'xdevbot',
 }
 
 
