@@ -52,7 +52,7 @@ full help description with:
 
 
 
-.. |CircleCI| image:: https://badgen.net/circleci/github/NCAR/xdevbot/master?012345
+.. |CircleCI| image:: https://badgen.net/circleci/github/NCAR/xdevbot/master
     :target: https://circleci.com/gh/NCAR/xdevbot
     :alt: Tests
 
