@@ -8,7 +8,11 @@
 <main class="flex-fill min-ht-100vh bg-lightgrey" role="main">
 
   <!-- Main jumbotron for a primary marketing message or call to action -->
+  {% if watching is none %}
+  <div class="jumbotron m-0 pt-5 min-ht-100vh bg-img has-overlay">
+  {% else %}
   <div class="jumbotron m-0 bg-img has-overlay">
+  {% endif %}
     <div class="overlay"></div>
     <div class="container text-light">
       <h1 class="display-3"><span class="X">X</span><span class="devbot">devbot</span></h1>
@@ -17,14 +21,14 @@
         at the
         <a class="text-light" href="https://ncar.ucar.edu">National Center for Atmospheric Research</a>.
         This bot watches specified GitHub repositories and collects Issue and Pull Request
-        information for display on the Xdev Project Board.  You must be an approved member
-        of the NCAR Xdev GitHub Organization to access and configure this bot.
+        information for display on the Xdev Main Project Board.
       </p>
       <p><a class="btn btn-primary btn-sm" href="https://ncar.github.io/xdev" role="button">About Xdev</a>
       </p>
     </div>
   </div>
 
+  {% if watching is not none %}
   <div class="container">
     <div class="row justify-content-center">
       <h2 class="display-5 pt-4 pb-2">What are we watching?</h2>
@@ -36,6 +40,7 @@
       </span>
     </div>
   </div>
+  {% endif %}
 
 </main>
 {% endblock main %}
