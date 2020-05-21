@@ -3,7 +3,7 @@
 The NCAR Xdevbot
 ================
 
-This Bot is based on the ``ncar-xdev/aiohttp_app_template`` template for a simple
+This Bot is based on the ``kmpaul/aiohttp_app_template`` template for a simple
 web application based on ``aiohttp`` and ``motor``, using a MongoDB database.
 
 
@@ -52,19 +52,19 @@ full help description with:
 
 
 
-.. |CircleCI| image:: https://badgen.net/circleci/github/ncar-xdev/xdevbot/master?012345
-    :target: https://circleci.com/gh/ncar-xdev/xdevbot
+.. |CircleCI| image:: https://badgen.net/circleci/github/NCAR/xdevbot/master?012345
+    :target: https://circleci.com/gh/NCAR/xdevbot
     :alt: Tests
 
-.. |GitHub| image:: https://badgen.net/github/checks/ncar-xdev/xdevbot/master?012345
-    :target: https://github.com/ncar-xdev/xdevbot/actions?query=workflow%3Acode-style
+.. |GitHub| image:: https://badgen.net/github/checks/NCAR/xdevbot/master?012345
+    :target: https://github.com/NCAR/xdevbot/actions?query=workflow%3Acode-style
     :alt: GitHub
 
-.. |Coverage| image:: https://badgen.net/codecov/c/github/ncar-xdev/xdevbot?012345
-    :target: https://codecov.io/gh/ncar-xdev/xdevbot
+.. |Coverage| image:: https://badgen.net/codecov/c/github/NCAR/xdevbot?012345
+    :target: https://codecov.io/gh/NCAR/xdevbot
     :alt: Coverage
 
-.. |License| image:: https://badgen.net/github/license/ncar-xdev/xdevbot?012345
+.. |License| image:: https://badgen.net/github/license/NCAR/xdevbot?012345
     :target: https://www.apache.org/licenses/LICENSE-2.0
     :alt: License
 
