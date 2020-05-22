@@ -10,9 +10,9 @@ dependencies:
   - pytest
   - pytest-aiohttp
   - pytest-cov
-  - codecov
   - pip
   - pip:
+    - -e git+https://github.com/codecov/codecov-python#egg=codecov
     - motor
     - dnspython
     - mockupdb
