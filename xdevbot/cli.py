@@ -1,5 +1,8 @@
+import asyncio
 import logging
 from configparser import ConfigParser
+from contextlib import suppress
+from datetime import datetime
 
 import aiohttp_jinja2
 import click
@@ -24,6 +27,22 @@ DEFAULT_CONFIG = {
 }
 
 
+async def polling(period=120):
+    while True:
+        logging.info(f'{datetime.now()}: Running polling tasks')
+        await asyncio.sleep(period)
+
+
+async def startup_background_tasks(app):
+    app['polling'] = asyncio.create_task(polling(period=5))
+
+
+async def cleanup_background_tasks(app):
+    app['polling'].cancel()
+    with suppress(asyncio.CancelledError):
+        await app['polling']
+
+
 async def init_app(config=DEFAULT_CONFIG):
     app = web.Application()
     app['config'] = config
@@ -31,6 +50,9 @@ async def init_app(config=DEFAULT_CONFIG):
 
     app.on_startup.append(connect_db)
     app.on_cleanup.append(disconnect_db)
+
+    app.on_startup.append(startup_background_tasks)
+    app.on_cleanup.append(cleanup_background_tasks)
 
     setup_routes(app)
     setup_middlewares(app)
