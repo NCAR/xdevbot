@@ -1,6 +1,14 @@
-from pkg_resources import DistributionNotFound, get_distribution
+from fastapi import FastAPI, Request
+from fastapi.staticfiles import StaticFiles
+from fastapi.templating import Jinja2Templates
 
-try:
-    __version__ = get_distribution(__name__).version
-except DistributionNotFound:
-    __version__ = '0.0.0'
+app = FastAPI()
+app.mount('/static', StaticFiles(directory='xdevbot/static'), name='static')
+
+templates = Jinja2Templates(directory='xdevbot/templates')
+
+
+@app.get('/')
+async def root(request: Request):
+    params = {'request': request, 'title': 'Xdevbot', 'watching': None}
+    return templates.TemplateResponse('home.html.j2', params)

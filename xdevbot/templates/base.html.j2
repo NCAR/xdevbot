@@ -7,18 +7,18 @@
 
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-    <link rel="stylesheet" href="{{ url('static', filename='css/style.css') }}" type=text/css>
+    <link rel="stylesheet" href="{{ url_for('static', filename='/css/style.css') }}" type=text/css>
 
     <!-- Fonts -->
     <link href="https://fonts.googleapis.com/css?family=Saira+Stencil+One&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Audiowide&display=swap" rel="stylesheet">
 
     <!-- Favicons -->
-    <link rel="apple-touch-icon" sizes="180x180" href="{{ url('static', filename='img/apple-touch-icon.png') }}">
-    <link rel="icon" type="image/png" sizes="32x32" href="{{ url('static', filename='img/favicon-32x32.png') }}">
-    <link rel="icon" type="image/png" sizes="16x16" href="{{ url('static', filename='img/favicon-16x16.png') }}">
-    <link rel="icon" href="{{ url('static', filename='img/favicon.ico') }}" />
-    <link rel="manifest" href="{{ url('static', filename='site.webmanifest') }}">
+    <link rel="apple-touch-icon" sizes="180x180" href="{{ url_for('static', filename='/img/apple-touch-icon.png') }}">
+    <link rel="icon" type="image/png" sizes="32x32" href="{{ url_for('static', filename='/img/favicon-32x32.png') }}">
+    <link rel="icon" type="image/png" sizes="16x16" href="{{ url_for('static', filename='/img/favicon-16x16.png') }}">
+    <link rel="icon" href="{{ url_for('static', filename='/img/favicon.ico') }}" />
+    <link rel="manifest" href="{{ url_for('static', filename='/site.webmanifest') }}">
 
     <!-- Custom Head Content -->
     {% block extra_head %}
@@ -82,7 +82,7 @@
       <div class="container">
         <div class="row">
           <div class="col-12 col-md">
-            <a href="https://www2.cisl.ucar.edu/"><img src="{{ url('static', filename='img/CISL-contemp-logo-white.svg') }}" alt="CISL" class="ncar-logo"></a>
+            <a href="https://www2.cisl.ucar.edu/"><img src="{{ url_for('static', filename='/img/CISL-contemp-logo-white.svg') }}" alt="CISL" class="ncar-logo"></a>
           </div>
           <div class="col-12 col-md-auto">
             <p class="copyright"><a href="https://www.ucar.edu/">University Corporation for Atmospheric Research</a> &copy; 2020<br>
@@ -92,7 +92,7 @@
         </div>
         <div class="row pt-3 border-top">
           <div class="col-auto">
-            <a href="https://nsf.gov/"><img src="{{ url('static', filename='img/footer-logo-nsf.png') }}" alt="NSF" class="nsf-logo"></a>
+            <a href="https://nsf.gov/"><img src="{{ url_for('static', filename='/img/footer-logo-nsf.png') }}" alt="NSF" class="nsf-logo"></a>
           </div>
           <div class="col">
             <p class="nsf-text">This material is based upon work supported by the National Center for Atmospheric Research, a major facility

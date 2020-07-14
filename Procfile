@@ -1,1 +1,1 @@
-web: python -m xdevbot --port $PORT --mongouri $MONGODB_URI
+web: hypercorn --bind 127.0.0.1:$PORT xdevbot:app

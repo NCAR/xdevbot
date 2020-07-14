@@ -1,6 +1,3 @@
-aiohttp
-aiohttp-jinja2
-click
-motor
-dnspython
-bs4
+hypercorn
+fastapi
+jinja2
