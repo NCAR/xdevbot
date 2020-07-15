@@ -1,3 +1,4 @@
 hypercorn
 fastapi
+aiofiles
 jinja2
