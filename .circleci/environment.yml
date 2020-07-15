@@ -9,3 +9,6 @@ dependencies:
   - pytest
   - pytest-cov
   - codecov
+  - pip
+  - pip:
+    - bs4

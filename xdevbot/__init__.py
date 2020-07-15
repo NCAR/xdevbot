@@ -9,8 +9,12 @@ templates = Jinja2Templates(directory='xdevbot/templates')
 
 
 @app.middleware('http')
-async def http_exception_handler(request: Request, call_next):
-    response = await call_next(request)
+async def http_error_handler(request: Request, call_next):
+    try:
+        response = await call_next(request)
+    except Exception:
+        return templates.TemplateResponse('500.html.j2', {'request': request})
+
     if response.status_code >= 400 and response.status_code < 500:
         return templates.TemplateResponse('404.html.j2', {'request': request})
     elif response.status_code >= 500:
