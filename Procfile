@@ -1,1 +1,1 @@
-web: hypercorn --bind 127.0.0.1:$PORT xdevbot:app
+web: uvicorn --host=0.0.0.0 --port=${PORT} xdevbot:app
