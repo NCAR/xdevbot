@@ -36,6 +36,7 @@ checkpoint:
 publication:
   url:
   repos:
+    - NCAR/ncar-aws-binder
 
 platform:
   url:
