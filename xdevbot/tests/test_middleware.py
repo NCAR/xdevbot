@@ -1,4 +1,4 @@
-from bs4 import BeautifulSoup
+from bs4 import BeautifulSoup  # noqa
 from fastapi import Request
 from fastapi.testclient import TestClient
 
