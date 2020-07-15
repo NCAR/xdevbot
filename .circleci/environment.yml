@@ -6,6 +6,7 @@ dependencies:
   - fastapi
   - uvicorn
   - jinja2
+  - bs4
   - pytest
   - pytest-cov
   - codecov

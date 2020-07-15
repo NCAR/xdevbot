@@ -8,6 +8,20 @@ app.mount('/static', StaticFiles(directory='xdevbot/static'), name='static')
 templates = Jinja2Templates(directory='xdevbot/templates')
 
 
+@app.middleware('http')
+async def http_error_handler(request: Request, call_next):
+    try:
+        response = await call_next(request)
+    except Exception:
+        return templates.TemplateResponse('500.html.j2', {'request': request})
+
+    if response.status_code >= 400 and response.status_code < 500:
+        return templates.TemplateResponse('404.html.j2', {'request': request})
+    elif response.status_code >= 500:
+        return templates.TemplateResponse('500.html.j2', {'request': request})
+    return response
+
+
 @app.get('/')
 async def root(request: Request):
     params = {'request': request, 'title': 'Xdevbot', 'watching': None}
