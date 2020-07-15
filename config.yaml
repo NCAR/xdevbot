@@ -20,6 +20,7 @@ ingestion:
   url:
   repos:
     - intake/intake-esm
+    - NCAR/intake-thredds
     - NCAR/esm-collection-spec
     - NCAR/intake-esm-datastore
 
