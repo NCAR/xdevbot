@@ -1,0 +1,43 @@
+core:
+  url: https://github.com/NCAR/xdev/projects/2
+  repos:
+    - NCAR/xdev
+    - NCAR/xdevbot
+    - NCAR/xdev-docker-images
+eocb:
+  url:
+  repos:
+    - NCAR/python-tutorial
+    - NCAR/ncar-python-tutorial
+    - NCAR/notebook-gallery
+
+search:
+  url:
+  repos:
+
+ingestion:
+  url:
+  repos:
+    - intake/intake-esm
+    - NCAR/esm-collection-spec
+    - NCAR/intake-esm-datastore
+
+analysis:
+  url:
+  repos:
+    - xarray-contrib/cf-xarray
+
+checkpoint:
+  url:
+  repos:
+    - NCAR/xpersist
+
+publication:
+  url:
+  repos:
+
+platform:
+  url:
+  repos:
+    - NCAR/jupyter-forward
+    - NCAR/ncar-jobqueue
