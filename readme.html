@@ -32,14 +32,32 @@
 
           <div class="body" role="main">
             
-  <p><a class="reference external" href="https://circleci.com/gh/NCAR/xdevbot"><img alt="Tests" src="https://badgen.net/circleci/github/NCAR/xdevbot/master" /></a> <a class="reference external" href="https://github.com/NCAR/xdevbot/actions?query=workflow%3Acode-style"><img alt="GitHub" src="https://badgen.net/github/checks/NCAR/xdevbot/master" /></a> <a class="reference external" href="https://codecov.io/gh/NCAR/xdevbot"><img alt="Coverage" src="https://badgen.net/codecov/c/github/NCAR/xdevbot" /></a> <a class="reference external" href="https://www.apache.org/licenses/LICENSE-2.0"><img alt="License" src="https://badgen.net/github/license/NCAR/xdevbot?012345" /></a> <a class="reference external" href="https://pypi.org/project/xdevbot"><img alt="PyPI" src="https://badgen.net/pypi/v/xdevbot?label=pypi&amp;012345" /></a></p>
+  <p><a class="reference external" href="https://circleci.com/gh/NCAR/xdevbot"><img alt="Tests" src="https://badgen.net/circleci/github/NCAR/xdevbot/master" /></a> <a class="reference external" href="https://github.com/NCAR/xdevbot/actions?query=workflow%3Acode-style"><img alt="GitHub" src="https://badgen.net/github/checks/NCAR/xdevbot/master" /></a> <a class="reference external" href="https://codecov.io/gh/NCAR/xdevbot"><img alt="Coverage" src="https://badgen.net/codecov/c/github/NCAR/xdevbot" /></a> <a class="reference external" href="https://www.apache.org/licenses/LICENSE-2.0"><img alt="License" src="https://badgen.net/github/license/NCAR/xdevbot?012345" /></a></p>
 <div class="section" id="the-ncar-xdevbot">
 <h1>The NCAR Xdevbot<a class="headerlink" href="#the-ncar-xdevbot" title="Permalink to this headline">¶</a></h1>
-<p>This Bot is …</p>
+<p>The Xdevbot is designed to help monitor activity (Issues
+and Pull Requests) on GitHub repositories that might be scattered
+across many different organizations.  The Xdevbot assumes a
+single <em>Board Repository</em> where multiple GitHub Project Boards
+will be hosted.</p>
+<p><em>ToDo:</em></p>
+<p>Each Project Board on the <em>Board Repository</em> is used to <em>watch</em>
+all of the Issues/PRs in a <em>Watchlist</em> of GitHub Repositories.
+This allows you to organize your watched repositories categorically
+or topically.  Users may add single Issues/PRs to any Project Board
+manually.</p>
+<p>The Xdevbot provides simple automation for all Issues/PRs on the
+Boards, such that all newly created Issues are added to the <em>New</em>
+column, newly created PRs and reopened Issues are added/moved to the
+<em>In Progress</em> column, and any closed/merged Issue/PR is moved to the
+<em>Done</em> column.</p>
+<p>A <em>Master</em> Board can be used to aggregate <em>all</em> Issues/PRs across
+all of the Boards into a single, comprehensive Project Board.</p>
+<p>This is a <a class="reference external" href="https://fastapi.tiangolo.com/">FastAPI</a> app designed to run on <a class="reference external" href="https://www.heroku.com/">Heroku</a>.</p>
 <div class="section" id="running-locally">
 <h2>Running Locally<a class="headerlink" href="#running-locally" title="Permalink to this headline">¶</a></h2>
 <p>To run this application locally, you need simply run:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ hypercorn xdevbot:app
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ uvicorn xdevbot:app
 </pre></div>
 </div>
 </div>
