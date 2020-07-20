@@ -19,7 +19,7 @@ async def Event(request: Request):
         )
     payload = await request.json()
     action = payload.get('action', None)
-    return EventObject(
+    return EventType(
         kind=kind,
         guid=guid,
         signature=signature,
@@ -30,7 +30,7 @@ async def Event(request: Request):
     )
 
 
-class EventObject:
+class EventType:
     """A simple wrapper on a FastAPI Request Object for GitHub Webhook Event Payloads"""
 
     def __init__(self, **kwargs):
@@ -38,7 +38,7 @@ class EventObject:
             setattr(self, key, kwargs[key])
 
 
-def router(event: EventObject):
+def router(event: EventType):
     if event.kind in _ROUTING and event.action in _ROUTING[event.kind]:
         return _ROUTING[event.kind][event.action]
     else:

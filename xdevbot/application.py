@@ -16,5 +16,5 @@ def init_app():
 
 
 @gh.route('issues', 'created')
-def issue_created(event: gh.Event):
+def issue_created(event: gh.EventType):
     return {'detail': 'Thanks!'}
