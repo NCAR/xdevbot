@@ -24,6 +24,8 @@ def test_405(app):
 
     response = client.get('/')
     assert response.status_code == status.HTTP_405_METHOD_NOT_ALLOWED
+    data = response.json()
+    assert data == {'detail': 'Method Not Allowed'}
 
 
 def test_http_exception(app):
@@ -34,6 +36,8 @@ def test_http_exception(app):
     client = TestClient(app)
     response = client.get('/error')
     assert response.status_code == status.HTTP_500_INTERNAL_SERVER_ERROR
+    data = response.json()
+    assert data == {'detail': 'Internal Server Error'}
 
 
 def test_no_route(app):
@@ -43,6 +47,8 @@ def test_no_route(app):
 
     response = client.post('/', headers=headers, json={})
     assert response.status_code == status.HTTP_501_NOT_IMPLEMENTED
+    data = response.json()
+    assert data == {'detail': 'GitHub route undefined'}
 
 
 def test_issues_created(app):
