@@ -3,8 +3,9 @@ channels:
   - conda-forge
 dependencies:
   - python=3.8
-  - fastapi
-  - uvicorn
+  - aiohttp
+  - click
   - pytest
+  - pytest-aiohttp
   - pytest-cov
   - codecov

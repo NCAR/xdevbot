@@ -1,3 +1,2 @@
-uvicorn
-fastapi
-aiofiles
+aiohttp
+click

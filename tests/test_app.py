@@ -1,77 +1,76 @@
 import pytest
-from fastapi import HTTPException, Request, status
-from fastapi.testclient import TestClient
+from aiohttp import web
 
-from xdevbot.application import init_app
+from xdevbot.cli import init_app
 
 
 @pytest.fixture
-def app():
-    return init_app()
+async def app():
+    return await init_app()
 
 
-def test_404(app):
-    client = TestClient(app)
-    response = client.get('/unknown')
-    assert response.status_code == status.HTTP_404_NOT_FOUND
-    data = response.json()
-    assert data == {'detail': 'Not Found'}
+async def test_404(app, aiohttp_client, loop):
+    client = await aiohttp_client(app)
+    resp = await client.get('/unknown')
+    assert resp.status == 404
+    text = await resp.text()
+    assert text == '404: Not Found'
 
 
-def test_405(app):
-    client = TestClient(app)
-    response = client.get('/')
-    assert response.status_code == status.HTTP_405_METHOD_NOT_ALLOWED
-    data = response.json()
-    assert data == {'detail': 'Method Not Allowed'}
+async def test_405(app, aiohttp_client, loop):
+    client = await aiohttp_client(app)
+    resp = await client.get('/')
+    assert resp.status == 405
+    text = await resp.text()
+    assert text == '405: Method Not Allowed'
 
 
-def test_http_exception(app):
-    @app.get('/error')
-    async def error(request: Request):
-        raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR)
+async def test_http_exception(app, aiohttp_client, loop):
+    async def error(request):
+        raise web.HTTPInternalServerError()
 
-    client = TestClient(app)
-    response = client.get('/error')
-    assert response.status_code == status.HTTP_500_INTERNAL_SERVER_ERROR
-    data = response.json()
-    assert data == {'detail': 'Internal Server Error'}
+    app.router.add_get('/error', error)
+
+    client = await aiohttp_client(app)
+    resp = await client.get('/error')
+    assert resp.status == 500
+    text = await resp.text()
+    assert text == '500: Internal Server Error'
 
 
-def test_no_route(app):
-    client = TestClient(app)
+async def test_no_route(app, aiohttp_client, loop):
+    client = await aiohttp_client(app)
     headers = {'user-agent': 'GitHub-Hookshot/asef3'}
-    response = client.post('/', headers=headers, json={})
-    assert response.status_code == status.HTTP_501_NOT_IMPLEMENTED
-    data = response.json()
-    assert data == {'detail': 'GitHub route undefined'}
+    resp = await client.post('/', headers=headers, json={})
+    assert resp.status == 501
+    text = await resp.text()
+    assert text == '501: GitHub route undefined'
 
 
-def test_issues_created(app):
-    client = TestClient(app)
+async def test_issues_created(app, aiohttp_client, loop):
+    client = await aiohttp_client(app)
     headers = {'user-agent': 'GitHub-Hookshot/asef3', 'X-GitHub-Event': 'issues'}
     data = {'action': 'created'}
-    response = client.post('/', headers=headers, json=data)
-    assert response.status_code == status.HTTP_200_OK
-    data = response.json()
-    assert data == {'detail': 'Thanks!'}
+    resp = await client.post('/', headers=headers, json=data)
+    assert resp.status == 200
+    text = await resp.text()
+    assert text == 'Thanks!'
 
 
-def test_no_user_agent(app):
-    client = TestClient(app)
+async def test_no_user_agent(app, aiohttp_client, loop):
+    client = await aiohttp_client(app)
     headers = {'X-GitHub-Event': 'issues'}
     data = {'action': 'created'}
-    response = client.post('/', headers=headers, json=data)
-    assert response.status_code == status.HTTP_406_NOT_ACCEPTABLE
-    data = response.json()
-    assert data == {'detail': 'User agent looks incorrect'}
+    response = await client.post('/', headers=headers, json=data)
+    assert response.status == 406
+    text = await response.text()
+    assert text == '406: User agent looks incorrect'
 
 
-def test_non_json(app):
-    client = TestClient(app)
+async def test_non_json(app, aiohttp_client, loop):
+    client = await aiohttp_client(app)
     headers = {'user-agent': 'GitHub-Hookshot/asef3', 'X-GitHub-Event': 'issues'}
-    data = {'action': 'created'}
-    response = client.post('/', headers=headers, data=b'bytes')
-    assert response.status_code == status.HTTP_415_UNSUPPORTED_MEDIA_TYPE
-    data = response.json()
-    assert data == {'detail': 'Unsupported media type'}
+    response = await client.post('/', headers=headers, data=b'bytes')
+    assert response.status == 415
+    text = await response.text()
+    assert text == '415: Not a JSON payload'
