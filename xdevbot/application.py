@@ -12,7 +12,7 @@ async def api(request: web.Request):
 async def init_app():
     app = web.Application()
 
-    app.router.add_post('/', api)
+    app.router.add_post('/hooks/github', api)
 
     return app
 
