@@ -6,5 +6,6 @@ dependencies:
   - aiohttp
   - click
   - pytest
+  - pytest-aiohttp
   - pytest-cov
   - codecov
