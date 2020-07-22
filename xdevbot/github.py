@@ -1,22 +1,18 @@
-from fastapi import HTTPException, Request, status
+from aiohttp import web
 
 _ROUTING = {}
 
 
-async def Event(request: Request):
+async def Event(request: web.Request):
     kind = request.headers.get('X-GitHub-Event', None)
     guid = request.headers.get('X-GitHub-Delivery', None)
     signature = request.headers.get('X-Hub-Signature', None)
     user_agent = request.headers.get('User-Agent', None)
     if not user_agent.startswith('GitHub-Hookshot/'):
-        raise HTTPException(
-            status_code=status.HTTP_406_NOT_ACCEPTABLE, detail='User agent looks incorrect'
-        )
+        raise web.HTTPNotAcceptable(reason='User agent looks incorrect')
     content_type = request.headers.get('Content-Type', None)
     if not content_type == 'application/json':
-        raise HTTPException(
-            status_code=status.HTTP_415_UNSUPPORTED_MEDIA_TYPE, detail='Unsupported media type'
-        )
+        raise web.HTTPUnsupportedMediaType(reason='Not a JSON payload')
     payload = await request.json()
     action = payload.get('action', None)
     return EventType(
@@ -42,9 +38,7 @@ def router(event: EventType):
     if event.kind in _ROUTING and event.action in _ROUTING[event.kind]:
         return _ROUTING[event.kind][event.action]
     else:
-        raise HTTPException(
-            status_code=status.HTTP_501_NOT_IMPLEMENTED, detail='GitHub route undefined'
-        )
+        raise web.HTTPNotImplemented(reason='GitHub route undefined')
 
 
 class route:

@@ -26,7 +26,7 @@ column, newly created PRs and reopened Issues are added/moved to the
 A *Master* Board can be used to aggregate *all* Issues/PRs across
 all of the Boards into a single, comprehensive Project Board.
 
-This is a FastAPI_ app designed to run on Heroku_.
+This is a pure aiohttp_ app designed to run on Heroku_.
 
 
 Running Locally
@@ -36,10 +36,22 @@ To run this application locally, you need simply run:
 
 .. code-block:: bash
 
-   $ uvicorn xdevbot:app
+   $ python -m xdevbot
 
+However, this application uses ``click`` for its CLI, which means you can get the
+full help description with:
 
-.. _FastAPI: https://fastapi.tiangolo.com/
+.. code-block:: bash
+
+   $ python -m xdevbot --help
+   Usage: xdevbot [OPTIONS]
+
+   Options:
+     --host TEXT        Server IP address
+     --port INTEGER     Server port number
+     --help             Show this message and exit.
+
+.. _aiohttp: https://docs.aiohttp.org/en/stable/
 
 .. _Heroku: https://www.heroku.com/
 

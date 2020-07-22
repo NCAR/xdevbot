@@ -1,20 +1,22 @@
-from fastapi import FastAPI, Request
+from aiohttp import web
 
 import xdevbot.github as gh
 
 
-def init_app():
-    app = FastAPI()
+async def api(request: web.Request):
+    event = await gh.Event(request)
+    handler = gh.router(event)
+    return await handler(event)
 
-    @app.post('/')
-    async def api(request: Request):
-        event = await gh.Event(request)
-        handler = gh.router(event)
-        return handler(event)
+
+async def init_app():
+    app = web.Application()
+
+    app.router.add_post('/', api)
 
     return app
 
 
 @gh.route('issues', 'created')
-def issue_created(event: gh.EventType):
-    return {'detail': 'Thanks!'}
+async def issue_created(event: gh.EventType):
+    return web.Response(text='Thanks!')
