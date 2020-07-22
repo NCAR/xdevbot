@@ -53,11 +53,22 @@ column, newly created PRs and reopened Issues are added/moved to the
 <em>Done</em> column.</p>
 <p>A <em>Master</em> Board can be used to aggregate <em>all</em> Issues/PRs across
 all of the Boards into a single, comprehensive Project Board.</p>
-<p>This is a <a class="reference external" href="https://fastapi.tiangolo.com/">FastAPI</a> app designed to run on <a class="reference external" href="https://www.heroku.com/">Heroku</a>.</p>
+<p>This is a pure <a class="reference external" href="https://docs.aiohttp.org/en/stable/">aiohttp</a> app designed to run on <a class="reference external" href="https://www.heroku.com/">Heroku</a>.</p>
 <div class="section" id="running-locally">
 <h2>Running Locally<a class="headerlink" href="#running-locally" title="Permalink to this headline">¶</a></h2>
 <p>To run this application locally, you need simply run:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ uvicorn xdevbot:app
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ python -m xdevbot
+</pre></div>
+</div>
+<p>However, this application uses <code class="docutils literal notranslate"><span class="pre">click</span></code> for its CLI, which means you can get the
+full help description with:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ python -m xdevbot --help
+Usage: xdevbot <span class="o">[</span>OPTIONS<span class="o">]</span>
+
+Options:
+  --host TEXT        Server IP address
+  --port INTEGER     Server port number
+  --help             Show this message and exit.
 </pre></div>
 </div>
 </div>
