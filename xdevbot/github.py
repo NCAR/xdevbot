@@ -14,9 +14,6 @@ class EventType:
 
 
 async def Event(request: web.Request) -> EventType:
-    kind = request.headers.get('X-GitHub-Event', None)
-    guid = request.headers.get('X-GitHub-Delivery', None)
-    signature = request.headers.get('X-Hub-Signature', None)
     user_agent = request.headers.get('User-Agent', None)
     if not user_agent.startswith('GitHub-Hookshot/'):
         raise web.HTTPNotAcceptable(reason='User agent looks incorrect')
@@ -24,16 +21,22 @@ async def Event(request: web.Request) -> EventType:
     if not content_type == 'application/json':
         raise web.HTTPUnsupportedMediaType(reason='Not a JSON payload')
     payload = await request.json()
-    action = payload.get('action', None)
     return EventType(
-        kind=kind,
-        guid=guid,
-        signature=signature,
+        app=request.app,
+        kind=request.headers.get('X-GitHub-Event', None),
+        guid=request.headers.get('X-GitHub-Delivery', None),
+        signature=request.headers.get('X-Hub-Signature', None),
         user_agent=user_agent,
         content_type=content_type,
         payload=payload,
-        action=action,
+        action=payload.get('action', None),
     )
+
+
+async def handler(request: web.Request):
+    event = await Event(request)
+    handler = router(event)
+    return await handler(event)
 
 
 def router(event: EventType) -> Callable:
@@ -60,7 +63,7 @@ class route:
 class ProjectClientSession(ClientSession):
     """A class that provides a simple client session for GitHub actions"""
 
-    def __init__(self, **kwargs) -> 'ProjectClientSession':
+    def __init__(self, *args, **kwargs) -> 'ProjectClientSession':
         username = kwargs.pop('username', None)
         token = kwargs.pop('token', None)
         headers = kwargs.pop('headers', {})
@@ -70,7 +73,7 @@ class ProjectClientSession(ClientSession):
         if token:
             headers['Authorization'] = f'token {token}'
         kwargs['headers'] = headers
-        super().__init__(**kwargs)
+        super().__init__(*args, **kwargs)
 
     async def list_project_cards(self, column_id: int, archived_state: str = 'not_archived') -> web.Response:
         url = f'https://api.github.com/projects/columns/{column_id}/cards'

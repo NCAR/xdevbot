@@ -1,7 +1,7 @@
 import click
 from aiohttp import web
 
-from .application import init_app
+from .app import init_app
 
 NAME = __package__
 
