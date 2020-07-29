@@ -1,6 +1,6 @@
 from typing import Callable
 
-from aiohttp import web, ClientSession
+from aiohttp import ClientSession, web
 
 _ROUTING = {}
 
@@ -75,7 +75,9 @@ class ProjectClientSession(ClientSession):
         kwargs['headers'] = headers
         super().__init__(*args, **kwargs)
 
-    async def list_project_cards(self, column_id: int, archived_state: str = 'not_archived') -> web.Response:
+    async def list_project_cards(
+        self, column_id: int, archived_state: str = 'not_archived'
+    ) -> web.Response:
         url = f'https://api.github.com/projects/columns/{column_id}/cards'
         data = {'archived_state': archived_state}
         return await self.get(url, json=data)
@@ -98,7 +100,9 @@ class ProjectClientSession(ClientSession):
         url = f'https://api.github.com/projects/columns/cards/{card_id}'
         return await self.delete(url)
 
-    async def move_project_card(self, card_id: int, column_id: int, position: str = 'top') -> web.Response:
+    async def move_project_card(
+        self, card_id: int, column_id: int, position: str = 'top'
+    ) -> web.Response:
         url = f'https://api.github.com/projects/columns/cards/{card_id}/moves'
         data = {'position': position, 'column_id': column_id}
         return await self.post(url, json=data)

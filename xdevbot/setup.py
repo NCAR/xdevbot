@@ -1,10 +1,10 @@
-import os
 import logging
+import os
 
-from aiohttp import ClientSession, ClientTimeout
 import yaml
+from aiohttp import ClientSession, ClientTimeout
 
-from xdevbot.utils import squash_graphql_response, check_graphql_rate_limits
+from xdevbot.utils import check_graphql_rate_limits, squash_graphql_response
 
 
 async def setup(app):
@@ -22,8 +22,7 @@ async def setup(app):
 
 
 async def get_projects_config(
-    url='https://raw.githubusercontent.com/NCAR/xdev/master/xdevbot.yaml',
-    timeout=60,
+    url='https://raw.githubusercontent.com/NCAR/xdev/master/xdevbot.yaml', timeout=60,
 ):
     timeout = ClientTimeout(total=timeout)
     async with ClientSession(timeout=timeout) as session:
