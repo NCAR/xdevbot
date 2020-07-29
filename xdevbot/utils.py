@@ -11,9 +11,8 @@ def squash_graphql_response(obj, key: str = 'databaseId'):
     if isinstance(obj, dict):
         squashed = {}
         for k in obj:
-            if k == 'edges':
-                for edge in obj['edges']:
-                    node = edge['node']
+            if k == 'nodes':
+                for node in obj[k]:
                     k_ = node.pop(key)
                     squashed[k_] = squash_graphql_response(node, key=key)
             else:
@@ -35,6 +34,6 @@ async def check_rate_limits(kind: str = 'core', username: str = None, token: str
         rates = await response.json()
         remaining = rates['resources'][kind]['remaining']
         limit = rates['resources'][kind]['limit']
-        logging.info(f'{kind.capitalize()} Rate Limit: {remaining} requests remaining of {limit}')
+        logging.info(f'{kind.capitalize()} Rate Limit: {remaining} remaining of {limit}')
     else:
         logging.warning(f'Failed to retrieve rate limits: {response.status}')

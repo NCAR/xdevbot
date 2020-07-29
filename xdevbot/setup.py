@@ -30,7 +30,6 @@ async def get_projects_config(
     if response.status != 200:
         raise RuntimeError(f'Failed to read config file: {response.status}')
     text = await response.text()
-    await utils.check_rate_limits(kind='core')
     return yaml.safe_load(text)
 
 
@@ -41,24 +40,19 @@ async def query_projects_data(token=None, timeout=60):
     url = 'https://api.github.com/graphql'
     query = """{
   repository(name: \"xdev\", owner: \"NCAR\") {
-    projects(first: 9) { edges { node {
+    projects(first: 8, after: \"Y3Vyc29yOnYyOpHOACHFqQ==\") { nodes {
       url
       databaseId
-      columns(first: 7) { edges { node {
+      columns(first: 7) { nodes {
         name
         databaseId
-        cards(first: 100) { edges { node {
+        cards(first: 100) { nodes {
           databaseId
           note
           creator { login }
-        }}}
-      }}}
-    }}}
-  }
-  rateLimit {
-    cost
-    limit
-    remaining
+        }}
+      }}
+    }}
   }
 }"""
     timeout = ClientTimeout(total=timeout)
