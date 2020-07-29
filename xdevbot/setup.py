@@ -4,7 +4,7 @@ import os
 import yaml
 from aiohttp import ClientSession, ClientTimeout
 
-from xdevbot.utils import check_graphql_rate_limits, squash_graphql_response
+from xdevbot import utils
 
 
 async def setup(app):
@@ -17,7 +17,7 @@ async def setup(app):
 
     graphql_response = await query_projects_data(token=config['github_token'])
     logging.info('Project data read')
-    data = squash_graphql_response(graphql_response)
+    data = utils.squash_graphql_response(graphql_response)
     app['projects'] = filter_projects(data['projects'], config=config['projects'])
 
 
@@ -30,6 +30,7 @@ async def get_projects_config(
     if response.status != 200:
         raise RuntimeError(f'Failed to read config file: {response.status}')
     text = await response.text()
+    await utils.check_rate_limits(kind='core')
     return yaml.safe_load(text)
 
 
@@ -38,27 +39,27 @@ async def query_projects_data(token=None, timeout=60):
     if token:
         headers['Authorization'] = f'bearer {token}'
     url = 'https://api.github.com/graphql'
-    query = """query {
-    repository(name: \"xdev\", owner: \"NCAR\") {
-        projects(first: 9) { edges { node {
-            url
-            databaseId
-            columns(first: 7) { edges { node {
-                name
-                databaseId
-                cards(first: 100) { edges { node {
-                    databaseId
-                    note
-                    creator { login }
-                }}}
-            }}}
+    query = """{
+  repository(name: \"xdev\", owner: \"NCAR\") {
+    projects(first: 9) { edges { node {
+      url
+      databaseId
+      columns(first: 7) { edges { node {
+        name
+        databaseId
+        cards(first: 100) { edges { node {
+          databaseId
+          note
+          creator { login }
         }}}
-    }
-    rateLimit {
-        cost
-        limit
-        remaining
-    }
+      }}}
+    }}}
+  }
+  rateLimit {
+    cost
+    limit
+    remaining
+  }
 }"""
     timeout = ClientTimeout(total=timeout)
     async with ClientSession(headers=headers, timeout=timeout) as session:
@@ -67,7 +68,7 @@ async def query_projects_data(token=None, timeout=60):
         raise RuntimeError(f'Failed to read project data: {response.status}')
     data = await response.json()
 
-    check_graphql_rate_limits(data['data']['rateLimit'])
+    await utils.check_rate_limits(kind='graphql', token=token)
 
     return data['data']['repository']
 

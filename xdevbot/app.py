@@ -14,5 +14,6 @@ async def init_app():
     logging.info('Initializing application')
 
     await setup(app)
+    logging.info('Application setup complete')
     app.router.add_post('/hooks/github/', github.handler)
     return app
