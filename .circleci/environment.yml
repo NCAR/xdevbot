@@ -5,6 +5,7 @@ dependencies:
   - python=3.8
   - aiohttp
   - click
+  - pandas
   - pytest
   - pytest-aiohttp
   - pytest-cov
