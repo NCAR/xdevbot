@@ -1,6 +1,6 @@
-from typing import Callable
+from typing import Callable, Mapping
 
-from aiohttp import ClientSession, web
+from aiohttp import ClientSession, ClientTimeout, web
 
 _ROUTING = {}
 
@@ -33,7 +33,7 @@ async def Event(request: web.Request) -> EventType:
     )
 
 
-async def handler(request: web.Request):
+async def handler(request: web.Request) -> web.Response:
     event = await Event(request)
     handler = router(event)
     return await handler(event)
@@ -49,60 +49,80 @@ def router(event: EventType) -> Callable:
 class route:
     """A decorator that maps a specific GitHub event+action with a function"""
 
-    def __init__(self, kind, action):
+    def __init__(self, kind: str, action: str):
         self.kind = kind
         self.action = action
 
-    def __call__(self, f: Callable) -> Callable:
+    async def __call__(self, func: Callable) -> Callable:
+        async def func_wrapper(*args, **kwargs):
+            return await func(*args, **kwargs)
+
         if self.kind not in _ROUTING:
             _ROUTING[self.kind] = {}
-        _ROUTING[self.kind][self.action] = f
-        return f
+        _ROUTING[self.kind][self.action] = func_wrapper
+        return func_wrapper
 
 
-class ProjectClientSession(ClientSession):
+class ProjectClientSession:
     """A class that provides a simple client session for GitHub actions"""
 
-    def __init__(self, *args, **kwargs) -> 'ProjectClientSession':
-        username = kwargs.pop('username', None)
-        token = kwargs.pop('token', None)
-        headers = kwargs.pop('headers', {})
+    def __init__(self, headers={}, token=None) -> 'ProjectClientSession':
         headers['Accept'] = 'application/vnd.github.inertia-preview+json'
-        if username:
-            headers['User-Agent'] = username
+        headers['User-Agent'] = 'xdevbot'
         if token:
             headers['Authorization'] = f'token {token}'
-        kwargs['headers'] = headers
-        super().__init__(*args, **kwargs)
+        self.headers = headers
+
+    async def __aenter__(self):
+        self._session = ClientSession(headers=self.headers)
+        return self
+
+    async def __aexit__(self, exc_type, exc_value, traceback):
+        return self
 
     async def list_project_cards(
         self, column_id: int, archived_state: str = 'not_archived'
     ) -> web.Response:
         url = f'https://api.github.com/projects/columns/{column_id}/cards'
         data = {'archived_state': archived_state}
-        return await self.get(url, json=data)
+        return await self._session.get(url, json=data)
 
     async def get_project_card(self, card_id: int) -> web.Response:
         url = f'https://api.github.com/projects/columns/cards/{card_id}'
-        return await self.get(url)
+        return await self._session.get(url)
 
     async def create_project_card(self, note: str, column_id: int) -> web.Response:
         url = f'https://api.github.com/projects/columns/{column_id}/cards'
         data = {'note': note}
-        return await self.post(url, json=data)
+        return await self._session.post(url, json=data)
 
     async def update_project_card(self, card_id: int, archived: bool = True) -> web.Response:
         url = f'https://api.github.com/projects/columns/cards/{card_id}'
         data = {'archived': archived}
-        return await self.patch(url, json=data)
+        return await self._session.patch(url, json=data)
 
     async def delete_project_card(self, card_id: int) -> web.Response:
         url = f'https://api.github.com/projects/columns/cards/{card_id}'
-        return await self.delete(url)
+        return await self._session.delete(url)
 
     async def move_project_card(
         self, card_id: int, column_id: int, position: str = 'top'
     ) -> web.Response:
         url = f'https://api.github.com/projects/columns/cards/{card_id}/moves'
         data = {'position': position, 'column_id': column_id}
-        return await self.post(url, json=data)
+        return await self._session.post(url, json=data)
+
+
+async def graphql_query(query: str, token: str = None, timeout: int = 60) -> Mapping:
+    url = 'https://api.github.com/graphql'
+    json = {'query': query}
+
+    headers = {}
+    if token:
+        headers['Authorization'] = f'bearer {token}'
+    timeout = ClientTimeout(total=timeout)
+    async with ClientSession(headers=headers, timeout=timeout) as session:
+        response = await session.post(url=url, json=json)
+    if response.status != 200:
+        raise RuntimeError(f'Failed to read project data: {response.status}')
+    return await response.json()

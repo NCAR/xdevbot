@@ -1,21 +1,23 @@
 import os
+from unittest import mock
 
 import pytest
+from aiohttp import streams
+from aiohttp.test_utils import make_mocked_request
 
-from xdevbot.github import ProjectClientSession
+from xdevbot.github import Event, EventType, ProjectClientSession, graphql_query
 
 NEW_COLUMN_ID = 10144279
 OLD_COLUMN_ID = 9388249
 
+PAYLOAD = b'{ "action": "opened", "content": { "body": "something" } }'
 
-USERNAME = os.environ.get('GITHUB_TEST_USER', None)
-TOKEN = os.environ.get('GITHUB_TEST_TOKEN', None)
+TOKEN = os.environ.get('GITHUB_TOKEN', None)
 
 
-@pytest.mark.asyncio
 async def test_project_card_lifetime():
     note = 'https://github.com/NCAR/xdevbot-testing/issues/5'
-    async with ProjectClientSession(username=USERNAME, token=TOKEN) as session:
+    async with ProjectClientSession(token=TOKEN) as session:
         response = await session.create_project_card(note=note, column_id=NEW_COLUMN_ID)
         assert response.status == 201
         new_card = await response.json()
@@ -50,3 +52,40 @@ async def test_project_card_lifetime():
 
         response = await session.delete_project_card(card_id=new_card['id'])
         assert response.status == 204
+
+
+async def test_graphql_query():
+    query = '{repository(name: \"xdev\", owner: \"NCAR\") { url }}'
+    actual = await graphql_query(query, token=TOKEN)
+    expected = {'data': {'repository': {'url': 'https://github.com/NCAR/xdev'}}}
+    assert actual == expected
+
+
+def test_event_type():
+    event = EventType(a=1, b=2)
+    assert event.a == 1
+    assert event.b == 2
+
+
+@pytest.fixture
+def webhook_request(loop):
+    headers = {
+        'User-Agent': 'GitHub-Hookshot/abcde',
+        'Content-Type': 'application/json',
+        'X-GitHub-Event': 'issues',
+        'X-GitHub-Delivery': 'askfjbcalskeuhfaw3r',
+        'X-Hub-Signature': 'q3r5awfeaea',
+    }
+    protocol = mock.Mock(_reading_paused=False)
+    payload = streams.StreamReader(protocol=protocol, loop=loop)
+    payload.feed_data(PAYLOAD)
+    payload.feed_eof()
+    return make_mocked_request('POST', '/', headers=headers, payload=payload)
+
+
+async def test_event_invalid_user_agent(webhook_request):
+    event = await Event(webhook_request)
+    assert isinstance(event, EventType)
+    assert event.app
+    assert event.kind == 'issues'
+    assert event.action == 'opened'
