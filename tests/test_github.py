@@ -2,10 +2,10 @@ import os
 from unittest import mock
 
 import pytest
-from aiohttp import streams
+from aiohttp import streams, web
 from aiohttp.test_utils import make_mocked_request
 
-from xdevbot.github import Event, EventType, ProjectClientSession, graphql_query
+from xdevbot import github
 
 NEW_COLUMN_ID = 10144279
 OLD_COLUMN_ID = 9388249
@@ -17,7 +17,7 @@ TOKEN = os.environ.get('GITHUB_TOKEN', None)
 
 async def test_project_card_lifetime():
     note = 'https://github.com/NCAR/xdevbot-testing/issues/5'
-    async with ProjectClientSession(token=TOKEN) as session:
+    async with github.ProjectClientSession(token=TOKEN) as session:
         response = await session.create_project_card(note=note, column_id=NEW_COLUMN_ID)
         assert response.status == 201
         new_card = await response.json()
@@ -56,13 +56,19 @@ async def test_project_card_lifetime():
 
 async def test_graphql_query():
     query = '{repository(name: \"xdev\", owner: \"NCAR\") { url }}'
-    actual = await graphql_query(query, token=TOKEN)
+    actual = await github.graphql_query(query, token=TOKEN)
     expected = {'data': {'repository': {'url': 'https://github.com/NCAR/xdev'}}}
     assert actual == expected
 
 
+async def test_graphql_query_failure():
+    query = '{repository(name: \"xdev\", owner: \"NCAR\") { url }}'
+    with pytest.raises(RuntimeError):
+        await github.graphql_query(query, token='asdf')
+
+
 def test_event_type():
-    event = EventType(a=1, b=2)
+    event = github.EventType(a=1, b=2)
     assert event.a == 1
     assert event.b == 2
 
@@ -84,8 +90,21 @@ def webhook_request(loop):
 
 
 async def test_event_invalid_user_agent(webhook_request):
-    event = await Event(webhook_request)
-    assert isinstance(event, EventType)
+    event = await github.Event(webhook_request)
+    assert isinstance(event, github.EventType)
     assert event.app
     assert event.kind == 'issues'
     assert event.action == 'opened'
+
+
+async def test_route():
+    @github.route('a', 'b')
+    async def handler(request):
+        return web.Response(text='OK')
+
+    event = github.EventType(kind='a', action='b')
+    assert github.router(event)
+
+    event = github.EventType(kind='a', action='x')
+    with pytest.raises(web.HTTPNotImplemented):
+        github.router(event)

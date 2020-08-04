@@ -50,16 +50,17 @@ class route:
     """A decorator that maps a specific GitHub event+action with a function"""
 
     def __init__(self, kind: str, action: str):
-        self.kind = kind
-        self.action = action
+        self._kind = kind
+        self._action = action
 
-    async def __call__(self, func: Callable) -> Callable:
+    def __call__(self, func):
         async def func_wrapper(*args, **kwargs):
             return await func(*args, **kwargs)
 
-        if self.kind not in _ROUTING:
-            _ROUTING[self.kind] = {}
-        _ROUTING[self.kind][self.action] = func_wrapper
+        if self._kind not in _ROUTING:
+            _ROUTING[self._kind] = {}
+        _ROUTING[self._kind][self._action] = func_wrapper
+
         return func_wrapper
 
 

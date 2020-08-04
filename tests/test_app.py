@@ -1,12 +1,16 @@
+import os
+
 import pytest
 from aiohttp import web
 
 from xdevbot.app import init_app
 
+TOKEN = os.environ.get('GITHUB_TOKEN')
+
 
 @pytest.fixture
 async def app():
-    return await init_app()
+    return await init_app(token=TOKEN)
 
 
 async def test_404(app, aiohttp_client, loop):
