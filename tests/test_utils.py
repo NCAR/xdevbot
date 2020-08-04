@@ -27,6 +27,11 @@ async def test_read_remote_yaml(yaml_text, yaml_server):
     assert data == yaml.load(yaml_text)
 
 
+async def test_read_remote_yaml_failure(yaml_text, yaml_server):
+    with pytest.raises(RuntimeError):
+        await utils.read_remote_yaml('http://localhost:9876/abcde', timeout=5)
+
+
 def test_repo_fullname_from_url():
     repo = 'owner/repo'
     url = f'https://github.com/{repo}'
@@ -40,7 +45,8 @@ def test_refs_from_note():
 here's a note it has
 a url {ref1} in it
 and another {ref2} and
-then a bad url http://github/abc/xyz/pull/52
+then a bad url https://github/abc/xyz/pull/52
+and another bad url https://github.com/abc/xyz/pull/xx
 """
     refs = utils.refs_from_note(note)
     assert set(refs) == set([ref1, ref2])
@@ -48,3 +54,4 @@ then a bad url http://github/abc/xyz/pull/52
 
 async def test_check_rate_limits():
     await utils.check_rate_limits()
+    await utils.check_rate_limits(token='asfasef')
