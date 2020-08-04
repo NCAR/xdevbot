@@ -1,7 +1,7 @@
 import pytest
 from aiohttp import web
 
-from xdevbot.cli import init_app
+from xdevbot.app import init_app
 
 
 @pytest.fixture
