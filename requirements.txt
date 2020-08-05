@@ -1,3 +1,4 @@
 aiohttp
 click
 pandas
+pyyaml

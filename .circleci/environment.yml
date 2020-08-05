@@ -6,6 +6,7 @@ dependencies:
   - aiohttp
   - click
   - pandas
+  - pyyaml
   - pytest
   - pytest-aiohttp
   - pytest-cov
