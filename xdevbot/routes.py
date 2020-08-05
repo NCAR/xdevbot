@@ -16,7 +16,7 @@ async def handler(request: web.Request) -> web.Response:
 @github.route('pull_request', 'opened')
 async def opened(event: github.EventType):
     ref = event.payload[event.element]['html_url']
-    repo = event.payload[event.element]['repository']['full_name']
+    repo = event.payload['repository']['full_name']
     print(f'Received {event.element} {event.action} event: {ref}')
 
     cfg_data = await utils.read_remote_yaml(CONFIG_URL)
