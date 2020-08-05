@@ -123,8 +123,17 @@ async def test_route():
     async def handler(request):
         return web.Response(text='OK')
 
-    event = github.EventType(kind='a', action='b')
+    class MockLogger:
+        def info(self, _):
+            pass
+
+        def debug(self, _):
+            pass
+
+    mock_app = {'logger': MockLogger()}
+
+    event = github.EventType(kind='a', action='b', app=mock_app)
     assert github.router(event)
 
-    event = github.EventType(kind='a', action='x')
+    event = github.EventType(kind='a', action='x', app=mock_app)
     assert github.router(event)
