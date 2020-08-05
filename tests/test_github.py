@@ -106,5 +106,4 @@ async def test_route():
     assert github.router(event)
 
     event = github.EventType(kind='a', action='x')
-    with pytest.raises(web.HTTPNotImplemented):
-        github.router(event)
+    assert github.router(event)

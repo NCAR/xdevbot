@@ -44,7 +44,11 @@ def router(event: EventType) -> Callable:
     if event.kind in _ROUTING and event.action in _ROUTING[event.kind]:
         return _ROUTING[event.kind][event.action]
     else:
-        raise web.HTTPNotImplemented(reason='GitHub route undefined')
+
+        async def _not_implemented(event: EventType):
+            return web.Response()
+
+        return _not_implemented
 
 
 class route:

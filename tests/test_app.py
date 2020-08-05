@@ -46,9 +46,7 @@ async def test_no_route(app, aiohttp_client, loop):
     client = await aiohttp_client(app)
     headers = {'user-agent': 'GitHub-Hookshot/asef3'}
     resp = await client.post('/hooks/github/', headers=headers, json={})
-    assert resp.status == 501
-    text = await resp.text()
-    assert text == '501: GitHub route undefined'
+    assert resp.status == 200
 
 
 async def test_no_user_agent(app, aiohttp_client, loop):
