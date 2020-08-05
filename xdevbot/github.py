@@ -3,6 +3,8 @@ from typing import Callable, Mapping
 
 from aiohttp import ClientSession, ClientTimeout, web
 
+from xdevbot import routes  # noqa
+
 _ROUTING = defaultdict(dict)
 
 
