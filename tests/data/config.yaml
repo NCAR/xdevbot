@@ -1,0 +1,11 @@
+proj1:
+  url: https://github.com/owner/repo/projects/1
+  repos:
+    - a/x1
+    - b/x2
+
+proj2:
+  url: https://github.com/owner/repo/projects/2
+  repos:
+    - a/y1
+    - b/y2

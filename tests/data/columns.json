@@ -1,0 +1,48 @@
+{
+    "data": {
+        "repository": {
+            "projects": {
+                "nodes": [
+                    {
+                        "url": "https://github.com/owner/repo/projects/1",
+                        "columns": {
+                            "nodes": [
+                                {
+                                    "databaseId": 11,
+                                    "name": "New"
+                                },
+                                {
+                                    "databaseId": 12,
+                                    "name": "Done"
+                                },
+                                {
+                                    "databaseId": 13,
+                                    "name": "In Progress"
+                                }
+                            ]
+                        }
+                    },
+                    {
+                        "url": "https://github.com/owner/repo/projects/2",
+                        "columns": {
+                            "nodes": [
+                                {
+                                    "databaseId": 21,
+                                    "name": "New"
+                                },
+                                {
+                                    "databaseId": 22,
+                                    "name": "Done"
+                                },
+                                {
+                                    "databaseId": 23,
+                                    "name": "In Progress"
+                                }
+                            ]
+                        }
+                    }
+                ]
+            }
+        }
+    }
+}
