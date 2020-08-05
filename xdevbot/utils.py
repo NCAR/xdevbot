@@ -1,5 +1,3 @@
-import logging
-
 import yaml
 from aiohttp import ClientSession, ClientTimeout
 
@@ -28,7 +26,7 @@ def refs_from_note(note: str) -> str:
     return list(refs)
 
 
-async def check_rate_limits(kind: str = 'core', token: str = None, timeout: int = 60) -> None:
+async def get_rate_limits(token: str = None, timeout: int = 60) -> dict:
     headers = {'Content-Type': 'application/json'}
     if token:
         headers['Authorization'] = f'token {token}'
@@ -37,11 +35,9 @@ async def check_rate_limits(kind: str = 'core', token: str = None, timeout: int 
         response = await session.get('https://api.github.com/rate_limit')
     if response.status == 200:
         rates = await response.json()
-        remaining = rates['resources'][kind]['remaining']
-        limit = rates['resources'][kind]['limit']
-        logging.info(f'{kind.capitalize()} Rate Limit: {remaining} remaining of {limit}')
+        return rates['resources']
     else:
-        logging.warning(f'Failed to retrieve rate limits: {response.status}')
+        return None
 
 
 async def read_remote_yaml(url, timeout=60):

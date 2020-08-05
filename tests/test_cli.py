@@ -2,7 +2,7 @@ import pytest
 
 from xdevbot.cli import NAME, cli
 
-DEFAULT_CONFIG = {'host': None, 'port': None, 'token': None}
+DEFAULT_CONFIG = {'host': None, 'port': None, 'token': None, 'loglevel': 'INFO'}
 
 
 @pytest.fixture

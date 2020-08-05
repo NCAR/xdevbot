@@ -52,6 +52,6 @@ and another bad url https://github.com/abc/xyz/pull/xx
     assert set(refs) == set([ref1, ref2])
 
 
-async def test_check_rate_limits():
-    await utils.check_rate_limits()
-    await utils.check_rate_limits(token='asfasef')
+async def test_get_rate_limits():
+    await utils.get_rate_limits()
+    await utils.get_rate_limits(token='asfasef')
