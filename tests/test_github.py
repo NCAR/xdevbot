@@ -54,6 +54,7 @@ async def test_project_card_lifetime():
         assert response.status == 204
 
 
+@pytest.mark.skipif(TOKEN is None, reason='requires a valid GitHub token')
 async def test_graphql_query():
     query = '{repository(name: \"xdev\", owner: \"NCAR\") { url }}'
     actual = await github.graphql_query(query, token=TOKEN)
