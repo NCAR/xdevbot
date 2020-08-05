@@ -1,0 +1,12 @@
+a:
+  x: something
+  y:
+    - 1
+    - 2
+    - 3
+
+b:
+  x: anotherthing
+  y:
+    - 4
+    - 5

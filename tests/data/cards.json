@@ -1,0 +1,156 @@
+{
+    "data": {
+        "repository": {
+            "projects": {
+                "nodes": [
+                    {
+                        "url": "https://github.com/owner/repo/projects/1",
+                        "columns": {
+                            "nodes": [
+                                {
+                                    "databaseId": 11,
+                                    "name": "New",
+                                    "cards": {
+                                        "nodes": [
+                                            {
+                                                "databaseId": 111,
+                                                "note": "https://github.com/a/x1/issues/1",
+                                                "creator": {
+                                                    "login": "user1"
+                                                }
+                                            },
+                                            {
+                                                "databaseId": 112,
+                                                "note": "https://github.com/b/x2/issues/2",
+                                                "creator": {
+                                                    "login": "user2"
+                                                }
+                                            }
+                                        ]
+                                    }
+                                },
+                                {
+                                    "databaseId": 12,
+                                    "name": "Done",
+                                    "cards": {
+                                        "nodes": [
+                                            {
+                                                "databaseId": 121,
+                                                "note": "https://github.com/a/x1/issues/3",
+                                                "creator": {
+                                                    "login": "user1"
+                                                }
+                                            },
+                                            {
+                                                "databaseId": 122,
+                                                "note": "https://github.com/b/x2/issues/4",
+                                                "creator": {
+                                                    "login": "user2"
+                                                }
+                                            }
+                                        ]
+                                    }
+                                },
+                                {
+                                    "databaseId": 13,
+                                    "name": "In Progress",
+                                    "cards": {
+                                        "nodes": [
+                                            {
+                                                "databaseId": 131,
+                                                "note": "https://github.com/a/x1/issues/5",
+                                                "creator": {
+                                                    "login": "user1"
+                                                }
+                                            },
+                                            {
+                                                "databaseId": 132,
+                                                "note": "https://github.com/b/x2/issues/6",
+                                                "creator": {
+                                                    "login": "user2"
+                                                }
+                                            }
+                                        ]
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    {
+                        "url": "https://github.com/owner/repo/projects/2",
+                        "columns": {
+                            "nodes": [
+                                {
+                                    "databaseId": 21,
+                                    "name": "New",
+                                    "cards": {
+                                        "nodes": [
+                                            {
+                                                "databaseId": 211,
+                                                "note": "https://github.com/a/y1/issues/1",
+                                                "creator": {
+                                                    "login": "user1"
+                                                }
+                                            },
+                                            {
+                                                "databaseId": 212,
+                                                "note": "https://github.com/b/y2/issues/2",
+                                                "creator": {
+                                                    "login": "user2"
+                                                }
+                                            }
+                                        ]
+                                    }
+                                },
+                                {
+                                    "databaseId": 22,
+                                    "name": "Done",
+                                    "cards": {
+                                        "nodes": [
+                                            {
+                                                "databaseId": 221,
+                                                "note": "https://github.com/a/y1/issues/3",
+                                                "creator": {
+                                                    "login": "user1"
+                                                }
+                                            },
+                                            {
+                                                "databaseId": 222,
+                                                "note": "https://github.com/b/y2/issues/4",
+                                                "creator": {
+                                                    "login": "user2"
+                                                }
+                                            }
+                                        ]
+                                    }
+                                },
+                                {
+                                    "databaseId": 23,
+                                    "name": "In Progress",
+                                    "cards": {
+                                        "nodes": [
+                                            {
+                                                "databaseId": 231,
+                                                "note": "https://github.com/a/y1/issues/5",
+                                                "creator": {
+                                                    "login": "user1"
+                                                }
+                                            },
+                                            {
+                                                "databaseId": 232,
+                                                "note": "https://github.com/b/y2/issues/6",
+                                                "creator": {
+                                                    "login": "user2"
+                                                }
+                                            }
+                                        ]
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                ]
+            }
+        }
+    }
+}
