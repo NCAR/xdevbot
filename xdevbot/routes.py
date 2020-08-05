@@ -1,31 +1,54 @@
 from aiohttp import web
 
-from xdevbot import github, projects, utils
+from xdevbot import github, projects, queries, utils
+
+CONFIG_URL = 'https://raw.githubusercontent.com/NCAR/xdev/master/xdevbot.yaml'
 
 
 @github.route('issues', 'opened')
-async def issue_opened(event: github.EventType):
-    token = event.app['token']
+@github.route('pull_request', 'opened')
+async def opened(event: github.EventType):
+    ref = event.payload[event.element]['html_url']
+    repo = event.payload[event.element]['repository']['full_name']
 
-    ref = event.payload['issue']['html_url']
-    repo_url = event.payload['issue']['repository_url']
-    repo = utils.repo_fullname_from_url(repo_url)
-
-    cfg_df = await projects.get_config_frame()
-    project_urls = cfg_df[cfg_df['repo'] == repo]['project_url'].to_list()
+    cfg_data = await utils.read_remote_yaml(CONFIG_URL)
+    df = projects.build_config_frame(cfg_data)
+    project_urls = df[df['repo'] == repo]['project_url'].to_list()
     if len(project_urls) == 0:
         return web.Response()
 
-    all_df = await projects.get_cards_frame(token=token)
-    crd_df = all_df[all_df['ref'] == ref]
-    if len(crd_df) == 0:
-        return web.Response()
+    token = event.app['token']
+    col_data = await github.graphql_query(queries.GET_COLUMNS, token=token)
+    columns = projects.build_columns_map(col_data)
+    column_name = 'In Progress' if event.element == 'pull_request' else 'New'
 
     async with github.ProjectClientSession(token=token) as session:
         for project_url in project_urls:
-            cards = crd_df[crd_df['project_url'] == project_url]
-            for _, card in cards.iterrows():
-                column_id = card['new_column_id']
-                await session.create_project_card(note=ref, column_id=column_id)
+            column_id = columns[project_url][column_name]
+            await session.create_project_card(note=ref, column_id=column_id)
+
+    return web.Response()
+
+
+@github.route('issues', 'closed')
+@github.route('issues', 'reopened')
+@github.route('pull_request', 'closed')
+@github.route('pull_request', 'reopened')
+async def closed(event: github.EventType):
+    ref = event.payload[event.element]['html_url']
+
+    token = event.app['token']
+    card_data = await github.graphql_query(queries.GET_ALL_CARDS, token=token)
+    df = projects.build_cards_frame(card_data)
+    cards = df[df['ref'] == ref]
+    if len(cards) == 0:
+        return web.Response()
+
+    column_name = 'inprog_column_id' if event.action == 'reopened' else 'done_column_id'
+    async with github.ProjectClientSession(token=token) as session:
+        for _, card in cards.iterrows():
+            card_id = card['card_id']
+            column_id = card[column_name]
+            await session.move_project_card(card_id=card_id, column_id=column_id)
 
     return web.Response()
