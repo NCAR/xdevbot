@@ -3,8 +3,6 @@ from typing import Callable, Mapping
 
 from aiohttp import ClientSession, ClientTimeout, web
 
-from xdevbot import routes  # noqa
-
 _ROUTING = defaultdict(dict)
 
 
@@ -37,13 +35,6 @@ async def Event(request: web.Request) -> EventType:
         payload=payload,
         action=payload.get('action', None),
     )
-
-
-async def handler(request: web.Request) -> web.Response:
-    event = await Event(request)
-    print(f'Event Received: {event.kind}/{event.action}')
-    handler = router(event)
-    return await handler(event)
 
 
 def router(event: EventType) -> Callable:
