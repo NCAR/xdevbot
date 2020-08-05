@@ -12,7 +12,7 @@ OLD_COLUMN_ID = 9388249
 
 PAYLOAD = b'{ "action": "opened", "content": { "body": "something" } }'
 
-TOKEN = os.environ.get('GITHUB_TOKEN', None)
+TOKEN = os.environ.get('XDEVBOT_TOKEN', None)
 
 
 async def test_project_card_lifetime():
