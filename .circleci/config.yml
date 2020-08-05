@@ -27,9 +27,6 @@ jobs:
           name: List packages in the current environment (base)
           command: conda list
       - run:
-          name: Debug environment variables
-          command: env
-      - run:
           name: Running tests
           command: python -m pytest --junitxml=test-reports/junit.xml --cov=./ --verbose
       - run:
