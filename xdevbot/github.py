@@ -22,9 +22,12 @@ async def Event(request: web.Request) -> EventType:
     if not content_type == 'application/json':
         raise web.HTTPUnsupportedMediaType(reason='Not a JSON payload')
     payload = await request.json()
+    kind = request.headers.get('X-GitHub-Event', None)
+    element = 'issue' if kind == 'issues' else kind
     return EventType(
         app=request.app,
-        kind=request.headers.get('X-GitHub-Event', None),
+        kind=kind,
+        element=element,
         guid=request.headers.get('X-GitHub-Delivery', None),
         signature=request.headers.get('X-Hub-Signature', None),
         user_agent=user_agent,
@@ -59,11 +62,8 @@ class route:
         self._action = action
 
     def __call__(self, func):
-        async def func_wrapper(*args, **kwargs):
-            return await func(*args, **kwargs)
-
-        _ROUTING[self._kind][self._action] = func_wrapper
-        return func_wrapper
+        _ROUTING[self._kind][self._action] = func
+        return func
 
 
 class ProjectClientSession:

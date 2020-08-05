@@ -73,8 +73,7 @@ def test_event_type():
     assert event.b == 2
 
 
-@pytest.fixture
-def webhook_request(loop):
+async def test_issues_event(loop):
     headers = {
         'User-Agent': 'GitHub-Hookshot/abcde',
         'Content-Type': 'application/json',
@@ -86,14 +85,35 @@ def webhook_request(loop):
     payload = streams.StreamReader(protocol=protocol, loop=loop)
     payload.feed_data(PAYLOAD)
     payload.feed_eof()
-    return make_mocked_request('POST', '/', headers=headers, payload=payload)
+    webhook_request = make_mocked_request('POST', '/', headers=headers, payload=payload)
 
-
-async def test_event_invalid_user_agent(webhook_request):
     event = await github.Event(webhook_request)
     assert isinstance(event, github.EventType)
     assert event.app
     assert event.kind == 'issues'
+    assert event.element == 'issue'
+    assert event.action == 'opened'
+
+
+async def test_pull_event(loop):
+    headers = {
+        'User-Agent': 'GitHub-Hookshot/abcde',
+        'Content-Type': 'application/json',
+        'X-GitHub-Event': 'pull_request',
+        'X-GitHub-Delivery': 'askfjbcalskeuhfaw3r',
+        'X-Hub-Signature': 'q3r5awfeaea',
+    }
+    protocol = mock.Mock(_reading_paused=False)
+    payload = streams.StreamReader(protocol=protocol, loop=loop)
+    payload.feed_data(PAYLOAD)
+    payload.feed_eof()
+    webhook_request = make_mocked_request('POST', '/', headers=headers, payload=payload)
+
+    event = await github.Event(webhook_request)
+    assert isinstance(event, github.EventType)
+    assert event.app
+    assert event.kind == 'pull_request'
+    assert event.element == 'pull_request'
     assert event.action == 'opened'
 
 
