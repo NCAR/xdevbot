@@ -37,13 +37,6 @@ async def Event(request: web.Request) -> EventType:
     )
 
 
-async def handler(request: web.Request) -> web.Response:
-    event = await Event(request)
-    print(f'Event Received: {event.kind}/{event.action}')
-    handler = router(event)
-    return await handler(event)
-
-
 def router(event: EventType) -> Callable:
     if event.kind in _ROUTING and event.action in _ROUTING[event.kind]:
         print(f'GitHub Route found: {event.kind}/{event.action}')

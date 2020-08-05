@@ -5,6 +5,13 @@ from xdevbot import github, projects, queries, utils
 CONFIG_URL = 'https://raw.githubusercontent.com/NCAR/xdev/master/xdevbot.yaml'
 
 
+async def handler(request: web.Request) -> web.Response:
+    event = await github.Event(request)
+    print(f'Event Received: {event.kind}/{event.action}')
+    handler = github.router(event)
+    return await handler(event)
+
+
 @github.route('issues', 'opened')
 @github.route('pull_request', 'opened')
 async def opened(event: github.EventType):
