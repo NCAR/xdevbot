@@ -1,8 +1,9 @@
+from collections import defaultdict
 from typing import Callable, Mapping
 
 from aiohttp import ClientSession, ClientTimeout, web
 
-_ROUTING = {}
+_ROUTING = defaultdict(dict)
 
 
 class EventType:
@@ -57,10 +58,7 @@ class route:
         async def func_wrapper(*args, **kwargs):
             return await func(*args, **kwargs)
 
-        if self._kind not in _ROUTING:
-            _ROUTING[self._kind] = {}
         _ROUTING[self._kind][self._action] = func_wrapper
-
         return func_wrapper
 
 
