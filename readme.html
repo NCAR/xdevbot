@@ -40,7 +40,6 @@ and Pull Requests) on GitHub repositories that might be scattered
 across many different organizations.  The Xdevbot assumes a
 single <em>Board Repository</em> where multiple GitHub Project Boards
 will be hosted.</p>
-<p><em>ToDo:</em></p>
 <p>Each Project Board on the <em>Board Repository</em> is used to <em>watch</em>
 all of the Issues/PRs in a <em>Watchlist</em> of GitHub Repositories.
 This allows you to organize your watched repositories categorically
@@ -53,22 +52,11 @@ column, newly created PRs and reopened Issues are added/moved to the
 <em>Done</em> column.</p>
 <p>A <em>Master</em> Board can be used to aggregate <em>all</em> Issues/PRs across
 all of the Boards into a single, comprehensive Project Board.</p>
-<p>This is a pure <a class="reference external" href="https://docs.aiohttp.org/en/stable/">aiohttp</a> app designed to run on <a class="reference external" href="https://www.heroku.com/">Heroku</a>.</p>
+<p>This is an <a class="reference external" href="https://docs.aiohttp.org/en/stable/">aiohttp</a> app designed to run on <a class="reference external" href="https://www.heroku.com/">Heroku</a> with <a class="reference external" href="https://gunicorn.org/">Gunicorn</a>.</p>
 <div class="section" id="running-locally">
 <h2>Running Locally<a class="headerlink" href="#running-locally" title="Permalink to this headline">¶</a></h2>
 <p>To run this application locally, you need simply run:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ python -m xdevbot
-</pre></div>
-</div>
-<p>However, this application uses <code class="docutils literal notranslate"><span class="pre">click</span></code> for its CLI, which means you can get the
-full help description with:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ python -m xdevbot --help
-Usage: xdevbot <span class="o">[</span>OPTIONS<span class="o">]</span>
-
-Options:
-  --host TEXT        Server IP address
-  --port INTEGER     Server port number
-  --help             Show this message and exit.
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ gunicorn xdevbot:init_app --worker-class aiohttp.GunicornWebWorker
 </pre></div>
 </div>
 </div>
