@@ -1,4 +1,4 @@
 aiohttp
-click
+gunicorn
 pandas
 pyyaml
