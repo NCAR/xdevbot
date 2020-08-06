@@ -4,7 +4,7 @@ from typing import List, Union
 import yaml
 from aiohttp import ClientSession, ClientTimeout
 
-logger = logging.getLogger()
+logger = logging.getLogger('gunicorn.error')
 
 
 def repo_fullname_from_url(url: str) -> str:

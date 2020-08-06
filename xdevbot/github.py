@@ -6,7 +6,7 @@ from aiohttp import ClientSession, ClientTimeout, web
 
 from xdevbot import utils
 
-logger = logging.getLogger()
+logger = logging.getLogger('gunicorn.error')
 
 _ROUTING = defaultdict(dict)
 

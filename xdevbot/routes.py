@@ -4,7 +4,7 @@ from aiohttp import web
 
 from xdevbot import github, projects, queries, utils
 
-logger = logging.getLogger()
+logger = logging.getLogger('gunicorn.error')
 
 CONFIG_URL = 'https://raw.githubusercontent.com/NCAR/xdev/master/xdevbot.yaml'
 

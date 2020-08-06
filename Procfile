@@ -1,1 +1,1 @@
-web: python -m xdevbot --port $PORT --loglevel DEBUG
+web: gunicorn xdevbot:init_app --worker-class aiohttp.GunicornWebWorker
