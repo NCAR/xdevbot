@@ -9,8 +9,6 @@ across many different organizations.  The Xdevbot assumes a
 single *Board Repository* where multiple GitHub Project Boards
 will be hosted.
 
-*ToDo:*
-
 Each Project Board on the *Board Repository* is used to *watch*
 all of the Issues/PRs in a *Watchlist* of GitHub Repositories.
 This allows you to organize your watched repositories categorically
@@ -26,7 +24,7 @@ column, newly created PRs and reopened Issues are added/moved to the
 A *Master* Board can be used to aggregate *all* Issues/PRs across
 all of the Boards into a single, comprehensive Project Board.
 
-This is a pure aiohttp_ app designed to run on Heroku_.
+This is an aiohttp_ app designed to run on Heroku_ with Gunicorn_.
 
 
 Running Locally
@@ -36,24 +34,13 @@ To run this application locally, you need simply run:
 
 .. code-block:: bash
 
-   $ python -m xdevbot
-
-However, this application uses ``click`` for its CLI, which means you can get the
-full help description with:
-
-.. code-block:: bash
-
-   $ python -m xdevbot --help
-   Usage: xdevbot [OPTIONS]
-
-   Options:
-     --host TEXT        Server IP address
-     --port INTEGER     Server port number
-     --help             Show this message and exit.
+   $ gunicorn xdevbot:init_app --worker-class aiohttp.GunicornWebWorker
 
 .. _aiohttp: https://docs.aiohttp.org/en/stable/
 
 .. _Heroku: https://www.heroku.com/
+
+.. _Gunicorn: https://gunicorn.org/
 
 .. |CircleCI| image:: https://badgen.net/circleci/github/NCAR/xdevbot/master
     :target: https://circleci.com/gh/NCAR/xdevbot

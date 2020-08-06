@@ -1,5 +1,10 @@
+import logging
+from typing import List, Union
+
 import yaml
 from aiohttp import ClientSession, ClientTimeout
+
+logger = logging.getLogger('gunicorn.error')
 
 
 def repo_fullname_from_url(url: str) -> str:
@@ -26,7 +31,11 @@ def refs_from_note(note: str) -> str:
     return list(refs)
 
 
-async def get_rate_limits(token: str = None, timeout: int = 60) -> dict:
+async def log_rate_limits(
+    kind: Union[str, List[str]] = 'core', token: str = None, timeout: int = 60
+) -> dict:
+    if isinstance(kind, str):
+        kind = [kind]
     headers = {'Content-Type': 'application/json'}
     if token:
         headers['Authorization'] = f'token {token}'
@@ -35,9 +44,12 @@ async def get_rate_limits(token: str = None, timeout: int = 60) -> dict:
         response = await session.get('https://api.github.com/rate_limit')
     if response.status == 200:
         rates = await response.json()
-        return rates['resources']
+        for k in kind:
+            r_k = rates['resources'][k]
+            msg = f"{k.upper()} Rate Limits: {r_k['remaining']} remaining of {r_k['limit']} total"
+            logger.info(msg)
     else:
-        return None
+        logger.warning('Failed to retrieve rate limits')
 
 
 async def read_remote_yaml(url, timeout=60):

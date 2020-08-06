@@ -1,7 +1,12 @@
+import logging
 from collections import defaultdict
 from typing import Callable, Mapping
 
 from aiohttp import ClientSession, ClientTimeout, web
+
+from xdevbot import utils
+
+logger = logging.getLogger('gunicorn.error')
 
 _ROUTING = defaultdict(dict)
 
@@ -39,12 +44,12 @@ async def Event(request: web.Request) -> EventType:
 
 def router(event: EventType) -> Callable:
     if event.kind in _ROUTING and event.action in _ROUTING[event.kind]:
-        print(f'GitHub Route found: {event.kind}/{event.action}')
+        logger.debug(f'GitHub route found [{event.kind}/{event.action}]')
         return _ROUTING[event.kind][event.action]
     else:
-        print(f'GitHub Route not found: {event.kind}/{event.action}')
+        logger.debug(f'Failed to find GitHub route [{event.kind}/{event.action}]')
 
-        async def _not_implemented(event: EventType):
+        async def _not_implemented(event: EventType) -> web.Response:
             return web.Response()
 
         return _not_implemented
@@ -53,11 +58,11 @@ def router(event: EventType) -> Callable:
 class route:
     """A decorator that maps a specific GitHub event+action with a function"""
 
-    def __init__(self, kind: str, action: str):
+    def __init__(self, kind: str, action: str) -> 'route':
         self._kind = kind
         self._action = action
 
-    def __call__(self, func):
+    def __call__(self, func: Callable) -> Callable:
         _ROUTING[self._kind][self._action] = func
         return func
 
@@ -65,18 +70,24 @@ class route:
 class ProjectClientSession:
     """A class that provides a simple client session for GitHub actions"""
 
-    def __init__(self, headers={}, token=None) -> 'ProjectClientSession':
+    def __init__(
+        self, headers: dict = {}, token: str = None, timeout: int = 60
+    ) -> 'ProjectClientSession':
         headers['Accept'] = 'application/vnd.github.inertia-preview+json'
         headers['User-Agent'] = 'xdevbot'
         if token:
             headers['Authorization'] = f'token {token}'
+        self.token = token
         self.headers = headers
+        self.timeout = timeout
 
     async def __aenter__(self):
-        self._session = ClientSession(headers=self.headers)
+        timeout = ClientTimeout(total=self.timeout)
+        self._session = ClientSession(headers=self.headers, timeout=timeout)
         return self
 
     async def __aexit__(self, exc_type, exc_value, traceback):
+        await utils.log_rate_limits(token=self.token)
         return self
 
     async def list_project_cards(
@@ -119,9 +130,11 @@ async def graphql_query(query: str, token: str = None, timeout: int = 60) -> Map
     headers = {}
     if token:
         headers['Authorization'] = f'bearer {token}'
-    timeout = ClientTimeout(total=timeout)
-    async with ClientSession(headers=headers, timeout=timeout) as session:
+    tout = ClientTimeout(total=timeout)
+    async with ClientSession(headers=headers, timeout=tout) as session:
         response = await session.post(url=url, json=json)
-    if response.status != 200:
-        raise RuntimeError(f'Failed to read project data: {response.status}')
-    return await response.json()
+        if response.status != 200:
+            raise RuntimeError(f'Failed to read project data: {response.status}')
+        data = await response.json()
+    await utils.log_rate_limits(kind='graphql', token=token, timeout=timeout)
+    return data
