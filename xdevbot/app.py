@@ -12,7 +12,7 @@ logger.addHandler(handler)
 
 
 async def init_app(token: str = None, loglevel: str = 'INFO'):
-    logger.setLevel(getattr(logging, loglevel))
+    logger.setLevel(getattr(logging, loglevel.upper()))
 
     if token is None:
         logger.warning('GitHub token not set!')
