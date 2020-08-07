@@ -54,6 +54,17 @@ async def test_project_card_lifetime():
         assert response.status == 204
 
 
+async def test_get_issue():
+    owner = 'NCAR'
+    repo = 'xdev'
+    number = 1
+    async with github.IssueClientSession(token=TOKEN) as session:
+        response = await session.get_issue(owner=owner, repo=repo, number=number)
+        assert response.status == 200
+        issue = await response.json()
+        assert issue['state'] == 'closed'
+
+
 @pytest.mark.skipif(TOKEN is None, reason='requires a valid GitHub token')
 async def test_graphql_query():
     query = '{repository(name: \"xdev\", owner: \"NCAR\") { url }}'

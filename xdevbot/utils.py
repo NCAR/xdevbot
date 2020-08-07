@@ -1,5 +1,5 @@
 import logging
-from typing import List, Union
+from typing import List, Tuple, Union
 
 import yaml
 from aiohttp import ClientSession, ClientTimeout
@@ -9,6 +9,11 @@ logger = logging.getLogger('gunicorn.error')
 
 def repo_fullname_from_url(url: str) -> str:
     return '/'.join(url.split('/')[-2:])
+
+
+def split_issue_ref(ref: str) -> Tuple[str]:
+    s = ref.split('/')
+    return s[-4], s[-3], int(s[-1])
 
 
 def refs_from_note(note: str) -> str:
