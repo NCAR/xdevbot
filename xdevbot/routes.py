@@ -32,13 +32,14 @@ async def opened(event: github.EventType):
 
     token = event.app['token']
     col_data = await github.graphql_query(queries.GET_COLUMNS, token=token)
-    columns = projects.build_columns_map(col_data)
+    columns = projects.build_columns_frame(col_data)
     column_name = 'In Progress' if event.element == 'pull_request' else 'New'
 
     async with github.ProjectClientSession(token=token) as session:
         for project_url in project_urls:
             logger.debug(f'Creating new card on project: {project_url}')
-            column_id = columns[project_url][column_name]
+            df = columns[columns['project_url'] == project_url]
+            column_id = int(df[df['column_name'] == column_name]['column_id'])
             await session.create_project_card(note=ref, column_id=column_id)
 
     return web.Response()
@@ -60,11 +61,11 @@ async def closed(event: github.EventType):
         logger.debug(f'No cards found matching ref: {ref}')
         return web.Response()
 
-    column_name = 'inprog_column_id' if event.action == 'reopened' else 'done_column_id'
+    df_column = 'inprog_column_id' if event.action == 'reopened' else 'done_column_id'
     async with github.ProjectClientSession(token=token) as session:
         for _, card in cards.iterrows():
             card_id = card['card_id']
-            column_id = card[column_name]
+            column_id = card[df_column]
             logger.debug(f'Moving card {card_id} to column {column_id}')
             await session.move_project_card(card_id=card_id, column_id=column_id)
 

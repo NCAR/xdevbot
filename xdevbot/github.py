@@ -67,6 +67,34 @@ class route:
         return func
 
 
+class IssueClientSession:
+    """A class that provides a simple client session for GitHub actions"""
+
+    def __init__(
+        self, headers: dict = {}, token: str = None, timeout: int = 60
+    ) -> 'IssueClientSession':
+        headers['Accept'] = 'application/vnd.github.v3+json'
+        headers['User-Agent'] = 'xdevbot'
+        if token:
+            headers['Authorization'] = f'token {token}'
+        self.token = token
+        self.headers = headers
+        self.timeout = timeout
+
+    async def __aenter__(self):
+        timeout = ClientTimeout(total=self.timeout)
+        self._session = ClientSession(headers=self.headers, timeout=timeout)
+        return self
+
+    async def __aexit__(self, exc_type, exc_value, traceback):
+        await utils.log_rate_limits(token=self.token)
+        return self
+
+    async def get_issue(self, owner: str, repo: str, number: int) -> web.Response:
+        url = f'https://api.github.com/repos/{owner}/{repo}/issues/{number}'
+        return await self._session.get(url)
+
+
 class ProjectClientSession:
     """A class that provides a simple client session for GitHub actions"""
 

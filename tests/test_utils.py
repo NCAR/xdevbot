@@ -38,6 +38,14 @@ def test_repo_fullname_from_url():
     assert utils.repo_fullname_from_url(url) == repo
 
 
+def test_split_issue_ref():
+    owner = 'owner'
+    repo = 'repo'
+    number = 5
+    ref = f'https://github.com/{owner}/{repo}/pull/{number}'
+    assert utils.split_issue_ref(ref) == (owner, repo, number)
+
+
 def test_refs_from_note():
     ref1 = 'https://github.com/abc/xyz/issues/7'
     ref2 = 'http://github.com/abc/xyz/pull/49'
