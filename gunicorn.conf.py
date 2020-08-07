@@ -4,6 +4,8 @@ Gunicorn hooks modified from https://gist.github.com/hynek/ba655c8756924a5febc52
 
 import os
 
+timeout = 300
+
 
 def on_starting(server):
     """
