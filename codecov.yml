@@ -9,13 +9,16 @@ coverage:
   status:
     project:
       default:
-       threshold: 0.2
-       if_not_found: success
+        threshold: 0.2
+        if_not_found: success
+        if_ci_failed: success
     patch:
       default:
         enabled: no
         if_not_found: success
+        if_ci_failed: success
     changes:
       default:
         enabled: no
         if_not_found: success
+        if_ci_failed: success
