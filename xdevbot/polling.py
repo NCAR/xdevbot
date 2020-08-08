@@ -23,7 +23,7 @@ async def update_nonbot_cards(token=None):
         column_id = card['column_id']
 
         df = columns[columns['project_url'] == project_url]
-        column_name = df[df['column_id'] == column_id]['column_name']
+        column_name = df[df['column_id'] == column_id]['column_name'].item()
 
         ref = card['ref']
         owner, repo, number = utils.split_issue_ref(ref)
