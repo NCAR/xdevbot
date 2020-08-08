@@ -6,7 +6,7 @@ from xdevbot import github, projects, queries, utils
 
 logger = logging.getLogger('gunicorn.error')
 
-CONFIG_URL = 'https://raw.githubusercontent.com/NCAR/xdev/master/xdevbot.yaml'
+CONFIG_URL = 'https://raw.githubusercontent.com/NCAR/xdev/xdevbot/xdevbot.yaml'
 
 
 async def github_handler(request: web.Request) -> web.Response:
