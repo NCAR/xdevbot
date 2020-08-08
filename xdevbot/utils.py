@@ -22,10 +22,10 @@ def refs_from_note(note: str) -> str:
         s = word.split('/')
         if (
             len(s) == 7
-            and s[0] in ('http:', 'https:')
+            and s[0].lower() in ('http:', 'https:')
             and s[1] == ''
-            and s[2] == 'github.com'
-            and s[5] in ('issues', 'pull')
+            and s[2].lower() == 'github.com'
+            and s[5].lower() in ('issues', 'pull')
         ):
             try:
                 int(s[6])
