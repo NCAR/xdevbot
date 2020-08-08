@@ -18,7 +18,7 @@ def split_issue_ref(ref: str) -> Tuple[str]:
 
 def refs_from_note(note: str) -> str:
     refs = set()
-    for word in note.split():
+    for word in str(note).split():
         s = word.split('/')
         if (
             len(s) == 7
