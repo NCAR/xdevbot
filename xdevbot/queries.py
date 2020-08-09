@@ -11,6 +11,17 @@ GET_ALL_CARDS = """{
                             nodes {
                                 databaseId
                                 note
+                                content {
+                                  ... on Issue {
+                                    databaseId
+                                    state
+                                  }
+                                  ... on PullRequest {
+                                    databaseId
+                                    state
+                                    merged
+                                  }
+                                }
                                 creator {
                                     login
                                 }
