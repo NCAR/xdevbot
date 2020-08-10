@@ -87,6 +87,7 @@ class IssueClientSession:
         return self
 
     async def __aexit__(self, exc_type, exc_value, traceback):
+        await self._session.close()
         await utils.log_rate_limits(token=self.token)
         return self
 
@@ -115,6 +116,7 @@ class ProjectClientSession:
         return self
 
     async def __aexit__(self, exc_type, exc_value, traceback):
+        await self._session.close()
         await utils.log_rate_limits(token=self.token)
         return self
 
