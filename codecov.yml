@@ -3,6 +3,11 @@ codecov:
 
 comment: false
 
+ignore:
+  - "xdevbot/routes.py"
+  - "xdevbot/polling.py"
+  - "xdevbot/queries.py"
+
 coverage:
   precision: 2
   round: down

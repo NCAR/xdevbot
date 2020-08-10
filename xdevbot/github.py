@@ -27,12 +27,12 @@ async def Event(request: web.Request) -> EventType:
     if not content_type == 'application/json':
         raise web.HTTPUnsupportedMediaType(reason='Not a JSON payload')
     payload = await request.json()
-    kind = request.headers.get('X-GitHub-Event', None)
-    element = 'issue' if kind == 'issues' else kind
+    event_type = request.headers.get('X-GitHub-Event', None)
+    key = 'issue' if event_type == 'issues' else event_type
     return EventType(
         app=request.app,
-        kind=kind,
-        element=element,
+        key=key,
+        type=event_type,
         guid=request.headers.get('X-GitHub-Delivery', None),
         signature=request.headers.get('X-Hub-Signature', None),
         user_agent=user_agent,
@@ -43,11 +43,11 @@ async def Event(request: web.Request) -> EventType:
 
 
 def router(event: EventType) -> Callable:
-    if event.kind in _ROUTING and event.action in _ROUTING[event.kind]:
-        logger.debug(f'GitHub route found [{event.kind}/{event.action}]')
-        return _ROUTING[event.kind][event.action]
+    if event.type in _ROUTING and event.action in _ROUTING[event.type]:
+        logger.debug(f'GitHub route found [{event.type}/{event.action}]')
+        return _ROUTING[event.type][event.action]
     else:
-        logger.debug(f'Failed to find GitHub route [{event.kind}/{event.action}]')
+        logger.debug(f'Failed to find GitHub route [{event.type}/{event.action}]')
 
         async def _not_implemented(event: EventType) -> web.Response:
             return web.Response()
@@ -58,12 +58,12 @@ def router(event: EventType) -> Callable:
 class route:
     """A decorator that maps a specific GitHub event+action with a function"""
 
-    def __init__(self, kind: str, action: str) -> 'route':
-        self._kind = kind
+    def __init__(self, type: str, action: str) -> 'route':
+        self._type = type
         self._action = action
 
     def __call__(self, func: Callable) -> Callable:
-        _ROUTING[self._kind][self._action] = func
+        _ROUTING[self._type][self._action] = func
         return func
 
 
@@ -129,9 +129,11 @@ class ProjectClientSession:
         url = f'https://api.github.com/projects/columns/cards/{card_id}'
         return await self._session.get(url)
 
-    async def create_project_card(self, note: str, column_id: int) -> web.Response:
+    async def create_project_card(
+        self, content_id: int, content_type: str, column_id: int
+    ) -> web.Response:
         url = f'https://api.github.com/projects/columns/{column_id}/cards'
-        data = {'note': note}
+        data = {'content_id': content_id, 'content_type': content_type}
         return await self._session.post(url, json=data)
 
     async def update_project_card(self, card_id: int, archived: bool = True) -> web.Response:
@@ -164,5 +166,5 @@ async def graphql_query(query: str, token: str = None, timeout: int = 60) -> Map
         if response.status != 200:
             raise RuntimeError(f'Failed to read project data: {response.status}')
         data = await response.json()
-    await utils.log_rate_limits(kind='graphql', token=token, timeout=timeout)
+    await utils.log_rate_limits(category='graphql', token=token, timeout=timeout)
     return data
