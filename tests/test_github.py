@@ -148,7 +148,37 @@ async def test_route():
     mock_app = {'logger': MockLogger()}
 
     event = github.EventType(type='a', action='b', app=mock_app)
-    assert github.router(event)
+    assert github.router(event) == handler
 
     event = github.EventType(type='a', action='x', app=mock_app)
-    assert github.router(event)
+    assert github.router(event) == github.route_not_implemented
+
+
+async def test_stacked_route():
+    @github.route('a', 'b')
+    @github.route('c', 'd')
+    async def handler(request):
+        return web.Response(text='OK')
+
+    class MockLogger:
+        def info(self, _):
+            pass
+
+        def debug(self, _):
+            pass
+
+    mock_app = {'logger': MockLogger()}
+
+    event = github.EventType(type='a', action='b', app=mock_app)
+    assert github.router(event) == handler
+
+    event = github.EventType(type='a', action='x', app=mock_app)
+    assert github.router(event) == github.route_not_implemented
+
+    event = github.EventType(type='c', action='d', app=mock_app)
+    assert github.router(event) == handler
+
+    event = github.EventType(type='c', action='b', app=mock_app)
+    assert github.router(event) == github.route_not_implemented
+
+    print(github._ROUTING)

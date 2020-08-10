@@ -43,9 +43,11 @@ async def opened(event: github.EventType):
             logger.debug(f'Creating new card on project: {project_url}')
             df = columns[columns['project_url'] == project_url]
             column_id = int(df[df['column_name'] == column_name]['column_id'])
-            await session.create_project_card(
+            response = await session.create_project_card(
                 content_id=content_id, content_type=content_type, column_id=column_id
             )
+            if response.status != 201:
+                logger.warning(f'New card was not created! ({response.status})')
 
     return web.Response()
 
