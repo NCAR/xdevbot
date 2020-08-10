@@ -129,9 +129,11 @@ class ProjectClientSession:
         url = f'https://api.github.com/projects/columns/cards/{card_id}'
         return await self._session.get(url)
 
-    async def create_project_card(self, note: str, column_id: int) -> web.Response:
+    async def create_project_card(
+        self, content_id: int, content_type: str, column_id: int
+    ) -> web.Response:
         url = f'https://api.github.com/projects/columns/{column_id}/cards'
-        data = {'note': note}
+        data = {'content_id': content_id, 'content_type': content_type}
         return await self._session.post(url, json=data)
 
     async def update_project_card(self, card_id: int, archived: bool = True) -> web.Response:
