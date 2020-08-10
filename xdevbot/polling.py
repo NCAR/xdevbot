@@ -26,18 +26,26 @@ async def update_nonbot_cards(token=None):
         column_name = df[df['column_id'] == column_id]['column_name'].item()
 
         ref = card['ref']
-        owner, repo, number = utils.split_issue_ref(ref)
-        async with github.IssueClientSession(token=token) as session:
-            response = await session.get_issue(owner=owner, repo=repo, number=number)
-        if response.status != 200:
-            logger.warning(f'Failed to retrieve state of reference: {owner}/{repo}#{number}')
+        content_id = card['content_id']
+
+        if content_id:
+            state = card['content_state'].lower()
+        elif ref:
+            owner, repo, number = utils.split_issue_ref(ref)
+            async with github.IssueClientSession(token=token) as session:
+                response = await session.get_issue(owner=owner, repo=repo, number=number)
+            if response.status != 200:
+                logger.warning(f'Failed to retrieve state of reference: {owner}/{repo}#{number}')
+                continue
+            issue = await response.json()
+            state = issue['state']
+        else:
+            logger.warning('Card has no content_id or reference')
             continue
-        issue = await response.json()
-        state = issue['state']
 
         if state == 'open' and column_name == 'Done':
             column_id = card['inprog_column_id']
-        elif state == 'closed' and column_name != 'Done':
+        elif state != 'open' and column_name != 'Done':
             column_id = card['done_column_id']
         else:
             column_id = None
