@@ -14,14 +14,24 @@
                                         "nodes": [
                                             {
                                                 "databaseId": 111,
-                                                "note": "https://github.com/a/x1/issues/1",
+                                                "note": null,
+                                                "content": {
+                                                    "databaseId": 9999,
+                                                    "type": "Issue",
+                                                    "state": "OPEN"
+                                                },
                                                 "creator": {
                                                     "login": "user1"
                                                 }
                                             },
                                             {
                                                 "databaseId": 112,
-                                                "note": "https://github.com/b/x2/issues/2",
+                                                "note": null,
+                                                "content": {
+                                                    "databaseId": 8888,
+                                                    "type": "PullRequest",
+                                                    "state": "MERGED"
+                                                },
                                                 "creator": {
                                                     "login": "user2"
                                                 }
@@ -36,14 +46,16 @@
                                         "nodes": [
                                             {
                                                 "databaseId": 121,
-                                                "note": "https://github.com/a/x1/issues/3",
+                                                "note": "https://github.com/a/x1/pull/3",
+                                                "content": null,
                                                 "creator": {
                                                     "login": "user1"
                                                 }
                                             },
                                             {
                                                 "databaseId": 122,
-                                                "note": "https://github.com/b/x2/issues/4",
+                                                "note": "https://github.com/b/x2/pull/4",
+                                                "content": null,
                                                 "creator": {
                                                     "login": "user2"
                                                 }
@@ -59,6 +71,7 @@
                                             {
                                                 "databaseId": 131,
                                                 "note": "https://github.com/a/x1/issues/5",
+                                                "content": null,
                                                 "creator": {
                                                     "login": "user1"
                                                 }
@@ -66,6 +79,7 @@
                                             {
                                                 "databaseId": 132,
                                                 "note": "https://github.com/b/x2/issues/6",
+                                                "content": null,
                                                 "creator": {
                                                     "login": "user2"
                                                 }
@@ -88,6 +102,7 @@
                                             {
                                                 "databaseId": 211,
                                                 "note": "https://github.com/a/y1/issues/1",
+                                                "content": null,
                                                 "creator": {
                                                     "login": "user1"
                                                 }
@@ -95,6 +110,7 @@
                                             {
                                                 "databaseId": 212,
                                                 "note": "https://github.com/b/y2/issues/2",
+                                                "content": null,
                                                 "creator": {
                                                     "login": "user2"
                                                 }
@@ -110,6 +126,7 @@
                                             {
                                                 "databaseId": 221,
                                                 "note": "https://github.com/a/y1/issues/3",
+                                                "content": null,
                                                 "creator": {
                                                     "login": "user1"
                                                 }
@@ -117,6 +134,7 @@
                                             {
                                                 "databaseId": 222,
                                                 "note": "https://github.com/b/y2/issues/4",
+                                                "content": null,
                                                 "creator": {
                                                     "login": "user2"
                                                 }
@@ -132,6 +150,7 @@
                                             {
                                                 "databaseId": 231,
                                                 "note": "https://github.com/a/y1/issues/5",
+                                                "content": null,
                                                 "creator": {
                                                     "login": "user1"
                                                 }
@@ -139,6 +158,7 @@
                                             {
                                                 "databaseId": 232,
                                                 "note": "https://github.com/b/y2/issues/6",
+                                                "content": null,
                                                 "creator": {
                                                     "login": "user2"
                                                 }

@@ -18,7 +18,7 @@ def split_issue_ref(ref: str) -> Tuple[str]:
 
 def refs_from_note(note: str) -> str:
     refs = set()
-    for word in str(note).split():
+    for word in note.split():
         s = word.split('/')
         if (
             len(s) == 7
@@ -37,10 +37,10 @@ def refs_from_note(note: str) -> str:
 
 
 async def log_rate_limits(
-    kind: Union[str, List[str]] = 'core', token: str = None, timeout: int = 60
+    category: Union[str, List[str]] = 'core', token: str = None, timeout: int = 60
 ) -> dict:
-    if isinstance(kind, str):
-        kind = [kind]
+    if isinstance(category, str):
+        category = [category]
     headers = {'Content-Type': 'application/json'}
     if token:
         headers['Authorization'] = f'token {token}'
@@ -49,7 +49,7 @@ async def log_rate_limits(
         response = await session.get('https://api.github.com/rate_limit')
     if response.status == 200:
         rates = await response.json()
-        for k in kind:
+        for k in category:
             r_k = rates['resources'][k]
             msg = f"{k.upper()} Rate Limits: {r_k['remaining']} remaining of {r_k['limit']} total"
             logger.info(msg)

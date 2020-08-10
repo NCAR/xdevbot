@@ -102,8 +102,8 @@ async def test_issues_event(loop):
     event = await github.Event(webhook_request)
     assert isinstance(event, github.EventType)
     assert event.app
-    assert event.kind == 'issues'
-    assert event.element == 'issue'
+    assert event.key == 'issue'
+    assert event.type == 'issues'
     assert event.action == 'opened'
 
 
@@ -124,8 +124,8 @@ async def test_pull_event(loop):
     event = await github.Event(webhook_request)
     assert isinstance(event, github.EventType)
     assert event.app
-    assert event.kind == 'pull_request'
-    assert event.element == 'pull_request'
+    assert event.key == 'pull_request'
+    assert event.type == 'pull_request'
     assert event.action == 'opened'
 
 
@@ -143,8 +143,8 @@ async def test_route():
 
     mock_app = {'logger': MockLogger()}
 
-    event = github.EventType(kind='a', action='b', app=mock_app)
+    event = github.EventType(type='a', action='b', app=mock_app)
     assert github.router(event)
 
-    event = github.EventType(kind='a', action='x', app=mock_app)
+    event = github.EventType(type='a', action='x', app=mock_app)
     assert github.router(event)

@@ -11,7 +11,7 @@ CONFIG_URL = 'https://raw.githubusercontent.com/NCAR/xdev/xdevbot/xdevbot.yaml'
 
 async def github_handler(request: web.Request) -> web.Response:
     event = await github.Event(request)
-    logger.debug(f'Event Received: {event.kind}/{event.action}')
+    logger.debug(f'Event Received: {event.type}/{event.action}')
     handler = github.router(event)
     return await handler(event)
 
@@ -19,9 +19,12 @@ async def github_handler(request: web.Request) -> web.Response:
 @github.route('issues', 'opened')
 @github.route('pull_request', 'opened')
 async def opened(event: github.EventType):
-    ref = event.payload[event.element]['html_url']
+    ref = event.payload[event.key]['html_url']
+    content_id = event.payload[event.key]['id']
+    content_type = 'Issue' if event.type == 'issues' else 'PullRequest'
+    logger.debug(f'Received {event.key} {event.action} event: {ref}')
+
     repo = event.payload['repository']['full_name']
-    logger.debug(f'Received {event.element} {event.action} event: {ref}')
 
     cfg_data = await utils.read_remote_yaml(CONFIG_URL)
     df = projects.build_config_frame(cfg_data)
@@ -33,14 +36,16 @@ async def opened(event: github.EventType):
     token = event.app['token']
     col_data = await github.graphql_query(queries.GET_COLUMNS, token=token)
     columns = projects.build_columns_frame(col_data)
-    column_name = 'In Progress' if event.element == 'pull_request' else 'New'
+    column_name = 'In Progress' if event.key == 'pull_request' else 'New'
 
     async with github.ProjectClientSession(token=token) as session:
         for project_url in project_urls:
             logger.debug(f'Creating new card on project: {project_url}')
             df = columns[columns['project_url'] == project_url]
             column_id = int(df[df['column_name'] == column_name]['column_id'])
-            await session.create_project_card(note=ref, column_id=column_id)
+            await session.create_project_card(
+                content_id=content_id, content_type=content_type, column_id=column_id
+            )
 
     return web.Response()
 
@@ -50,13 +55,17 @@ async def opened(event: github.EventType):
 @github.route('pull_request', 'closed')
 @github.route('pull_request', 'reopened')
 async def closed(event: github.EventType):
-    ref = event.payload[event.element]['html_url']
-    logger.debug(f'Received {event.element} {event.action} event: {ref}')
+    ref = event.payload[event.key]['html_url']
+    content_id = event.payload[event.key]['id']
+    logger.debug(f'Received {event.key} {event.action} event: {ref}')
 
     token = event.app['token']
     card_data = await github.graphql_query(queries.GET_ALL_CARDS, token=token)
     df = projects.build_cards_frame(card_data)
-    cards = df[df['ref'] == ref]
+
+    by_ref = df['ref'] == ref
+    by_id = df['content_id'] == content_id
+    cards = df[by_ref | by_id]
     if len(cards) == 0:
         logger.debug(f'No cards found matching ref: {ref}')
         return web.Response()
