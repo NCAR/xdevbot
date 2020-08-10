@@ -60,4 +60,4 @@ async def update_nonbot_cards(token=None):
                 logger.debug(f'Moving non-bot card {card_id} to column {column_id}')
                 await session.move_project_card(card_id=card_id, column_id=column_id)
 
-    logger.info('Updated non-bot cards on project boards')
+        logger.info('Updated non-bot cards on project boards')
