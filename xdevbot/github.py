@@ -42,6 +42,10 @@ async def Event(request: web.Request) -> EventType:
     )
 
 
+async def route_not_implemented(event: EventType) -> web.Response:
+    return web.Response()
+
+
 def router(event: EventType) -> Callable:
     if event.type in _ROUTING and event.action in _ROUTING[event.type]:
         logger.debug(f'GitHub route found [{event.type}/{event.action}]')
@@ -49,10 +53,7 @@ def router(event: EventType) -> Callable:
     else:
         logger.debug(f'Failed to find GitHub route [{event.type}/{event.action}]')
 
-        async def _not_implemented(event: EventType) -> web.Response:
-            return web.Response()
-
-        return _not_implemented
+        return route_not_implemented
 
 
 class route:
