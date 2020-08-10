@@ -14,12 +14,13 @@ GET_ALL_CARDS = """{
                                 content {
                                   ... on Issue {
                                     databaseId
-                                    state
+                                    state: state
+                                    type: __typename
                                   }
                                   ... on PullRequest {
                                     databaseId
-                                    state
-                                    merged
+                                    state: state
+                                    type: __typename
                                   }
                                 }
                                 creator {
