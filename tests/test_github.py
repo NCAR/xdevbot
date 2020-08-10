@@ -16,9 +16,13 @@ TOKEN = os.environ.get('XDEVBOT_TOKEN', None)
 
 
 async def test_project_card_lifetime():
-    note = 'https://github.com/NCAR/xdevbot-testing/issues/5'
+    # note = 'https://github.com/NCAR/xdevbot-testing/issues/5'
+    content_id = 664727902
+    content_type = 'Issue'
     async with github.ProjectClientSession(token=TOKEN) as session:
-        response = await session.create_project_card(note=note, column_id=NEW_COLUMN_ID)
+        response = await session.create_project_card(
+            content_id=content_id, content_type=content_type, column_id=NEW_COLUMN_ID
+        )
         assert response.status == 201
         new_card = await response.json()
 
