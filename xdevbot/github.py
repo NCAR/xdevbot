@@ -28,11 +28,11 @@ async def Event(request: web.Request) -> EventType:
         raise web.HTTPUnsupportedMediaType(reason='Not a JSON payload')
     payload = await request.json()
     kind = request.headers.get('X-GitHub-Event', None)
-    element = 'issue' if kind == 'issues' else kind
+    key = 'issue' if kind == 'issues' else kind
     return EventType(
         app=request.app,
+        key=key,
         kind=kind,
-        element=element,
         guid=request.headers.get('X-GitHub-Delivery', None),
         signature=request.headers.get('X-Hub-Signature', None),
         user_agent=user_agent,
