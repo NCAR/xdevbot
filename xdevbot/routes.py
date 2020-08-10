@@ -20,8 +20,6 @@ async def github_handler(request: web.Request) -> web.Response:
 @github.route('pull_request', 'opened')
 async def opened(event: github.EventType):
     ref = event.payload[event.key]['html_url']
-    content_id = event.payload[event.key]['id']
-    content_type = 'Issue' if event.type == 'issues' else 'PullRequest'
     logger.debug(f'Received {event.key} {event.action} event: {ref}')
 
     repo = event.payload['repository']['full_name']
@@ -43,9 +41,7 @@ async def opened(event: github.EventType):
             logger.debug(f'Creating new card on project: {project_url}')
             df = columns[columns['project_url'] == project_url]
             column_id = int(df[df['column_name'] == column_name]['column_id'])
-            response = await session.create_project_card(
-                content_id=content_id, content_type=content_type, column_id=column_id
-            )
+            response = await session.create_project_card(note=ref, column_id=column_id)
             if response.status != 201:
                 logger.warning(f'Failed to create new card! [{response.status}]')
                 body = await response.json()
