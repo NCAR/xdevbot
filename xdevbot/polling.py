@@ -1,6 +1,8 @@
 import asyncio
 import logging
 
+import pandas as pd
+
 from xdevbot import github, projects, queries, utils
 
 logger = logging.getLogger('gunicorn.error')
@@ -28,15 +30,17 @@ async def update_nonbot_cards(token=None):
         ref = card['ref']
         content_id = card['content_id']
 
-        if content_id:
+        if not pd.isna(content_id):
             state = card['content_state'].lower()
-        elif ref:
+        elif not pd.isna(ref):
             owner, repo, number = utils.split_issue_ref(ref)
             async with github.IssueClientSession(token=token) as session:
                 response = await session.get_issue(owner=owner, repo=repo, number=number)
-            if response.status != 200:
-                logger.warning(f'Failed to retrieve state of reference: {owner}/{repo}#{number}')
-                continue
+                if response.status != 200:
+                    logger.warning(
+                        f'Failed to retrieve state of reference: {owner}/{repo}#{number}'
+                    )
+                    continue
             issue = await response.json()
             state = issue['state']
         else:
