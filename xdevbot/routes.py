@@ -11,7 +11,7 @@ CONFIG_URL = 'https://raw.githubusercontent.com/NCAR/xdev/xdevbot/xdevbot.yaml'
 
 async def github_handler(request: web.Request) -> web.Response:
     event = await github.Event(request)
-    logger.debug(f'Event Received: {event.kind}/{event.action}')
+    logger.debug(f'Event Received: {event.type}/{event.action}')
     handler = github.router(event)
     return await handler(event)
 
@@ -20,8 +20,9 @@ async def github_handler(request: web.Request) -> web.Response:
 @github.route('pull_request', 'opened')
 async def opened(event: github.EventType):
     ref = event.payload[event.element]['html_url']
-    repo = event.payload['repository']['full_name']
     logger.debug(f'Received {event.element} {event.action} event: {ref}')
+
+    repo = event.payload['repository']['full_name']
 
     cfg_data = await utils.read_remote_yaml(CONFIG_URL)
     df = projects.build_config_frame(cfg_data)
@@ -35,12 +36,17 @@ async def opened(event: github.EventType):
     columns = projects.build_columns_frame(col_data)
     column_name = 'In Progress' if event.element == 'pull_request' else 'New'
 
+    content_type = 'Issue' if event.type == 'issues' else 'PullRequest'
+    content_id = event.payload[event.element]['id']
+
     async with github.ProjectClientSession(token=token) as session:
         for project_url in project_urls:
             logger.debug(f'Creating new card on project: {project_url}')
             df = columns[columns['project_url'] == project_url]
             column_id = int(df[df['column_name'] == column_name]['column_id'])
-            await session.create_project_card(note=ref, column_id=column_id)
+            await session.create_project_card(
+                content_id=content_id, content_type=content_type, column_id=column_id
+            )
 
     return web.Response()
 
