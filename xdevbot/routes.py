@@ -73,8 +73,8 @@ async def closed(event: github.EventType):
     df_column = 'inprog_column_id' if event.action == 'reopened' else 'done_column_id'
     async with github.ProjectClientSession(token=token) as session:
         for _, card in cards.iterrows():
-            card_id = card['card_id']
-            column_id = card[df_column]
+            card_id = int(card['card_id'])
+            column_id = int(card[df_column])
             logger.debug(f'Moving card {card_id} to column {column_id}')
             await session.move_project_card(card_id=card_id, column_id=column_id)
 
