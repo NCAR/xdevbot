@@ -59,9 +59,9 @@ def build_cards_frame(projects: dict) -> pd.DataFrame:
 
                 data['card_id'].append(card_id)
                 data['ref'].append(ref)
-                data['content_id'] = content_id
-                data['content_type'] = content_type
-                data['content_state'] = content_state
+                data['content_id'].append(content_id)
+                data['content_type'].append(content_type)
+                data['content_state'].append(content_state)
                 data['creator'].append(creator)
                 data['column_id'].append(column_id)
                 data['project_url'].append(url)
