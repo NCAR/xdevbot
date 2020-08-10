@@ -61,5 +61,5 @@ and another bad url https://github.com/abc/xyz/pull/xx
 
 
 async def test_log_rate_limits():
-    await utils.log_rate_limits(kind=['core', 'graphql'])
+    await utils.log_rate_limits(category=['core', 'graphql'])
     await utils.log_rate_limits(token='asfasef')
