@@ -19,8 +19,10 @@ async def github_handler(request: web.Request) -> web.Response:
 @github.route('issues', 'opened')
 @github.route('pull_request', 'opened')
 async def opened(event: github.EventType):
-    ref = event.payload[event.element]['html_url']
-    logger.debug(f'Received {event.element} {event.action} event: {ref}')
+    ref = event.payload[event.key]['html_url']
+    content_id = event.payload[event.key]['id']
+    content_type = 'Issue' if event.type == 'issues' else 'PullRequest'
+    logger.debug(f'Received {event.key} {event.action} event: {ref}')
 
     repo = event.payload['repository']['full_name']
 
@@ -34,10 +36,7 @@ async def opened(event: github.EventType):
     token = event.app['token']
     col_data = await github.graphql_query(queries.GET_COLUMNS, token=token)
     columns = projects.build_columns_frame(col_data)
-    column_name = 'In Progress' if event.element == 'pull_request' else 'New'
-
-    content_type = 'Issue' if event.type == 'issues' else 'PullRequest'
-    content_id = event.payload[event.element]['id']
+    column_name = 'In Progress' if event.key == 'pull_request' else 'New'
 
     async with github.ProjectClientSession(token=token) as session:
         for project_url in project_urls:
@@ -56,13 +55,17 @@ async def opened(event: github.EventType):
 @github.route('pull_request', 'closed')
 @github.route('pull_request', 'reopened')
 async def closed(event: github.EventType):
-    ref = event.payload[event.element]['html_url']
-    logger.debug(f'Received {event.element} {event.action} event: {ref}')
+    ref = event.payload[event.key]['html_url']
+    content_id = event.payload[event.key]['id']
+    logger.debug(f'Received {event.key} {event.action} event: {ref}')
 
     token = event.app['token']
     card_data = await github.graphql_query(queries.GET_ALL_CARDS, token=token)
     df = projects.build_cards_frame(card_data)
-    cards = df[df['ref'] == ref]
+
+    by_ref = df['ref'] == ref
+    by_id = df['content_id'] == content_id
+    cards = df[by_ref | by_id]
     if len(cards) == 0:
         logger.debug(f'No cards found matching ref: {ref}')
         return web.Response()
