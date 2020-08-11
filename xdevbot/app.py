@@ -16,7 +16,8 @@ logger.setLevel(glogger.level)
 formatter = logging.Formatter('[%(levelname)s:%(module)s:%(process)d] %(message)s')
 handler = logging.StreamHandler()
 handler.setFormatter(formatter)
-handler.setLevel(glogger.handlers[0].level)
+level = glogger.handlers[0].level if glogger.handlers else logging.INFO
+handler.setLevel(level)
 logger.addHandler(handler)
 
 
