@@ -6,7 +6,7 @@ from aiohttp import ClientSession, ClientTimeout, web
 
 from xdevbot import utils
 
-logger = logging.getLogger('gunicorn.error')
+logger = logging.getLogger('xdevbot')
 
 _ROUTING = defaultdict(dict)
 
@@ -52,7 +52,6 @@ def router(event: EventType) -> Callable:
         return _ROUTING[event.type][event.action]
     else:
         logger.debug(f'Failed to find GitHub route [{event.type}/{event.action}]')
-
         return route_not_implemented
 
 
@@ -64,6 +63,9 @@ class route:
         self._action = action
 
     def __call__(self, func: Callable) -> Callable:
+        logger.debug(
+            f'Creating GitHub route [{self._type}/{self._action}] to function {func.__name__}'
+        )
         _ROUTING[self._type][self._action] = func
         return func
 
@@ -88,8 +90,8 @@ class IssueClientSession:
         return self
 
     async def __aexit__(self, exc_type, exc_value, traceback):
+        await utils.log_rate_limits(token=self.token, session=self._session)
         await self._session.close()
-        await utils.log_rate_limits(token=self.token)
         return self
 
     async def get_issue(self, owner: str, repo: str, number: int) -> web.Response:
@@ -117,8 +119,8 @@ class ProjectClientSession:
         return self
 
     async def __aexit__(self, exc_type, exc_value, traceback):
+        await utils.log_rate_limits(token=self.token, session=self._session)
         await self._session.close()
-        await utils.log_rate_limits(token=self.token)
         return self
 
     async def list_project_cards(
@@ -165,7 +167,9 @@ async def graphql_query(query: str, token: str = None, timeout: int = 60) -> Map
     async with ClientSession(headers=headers, timeout=tout) as session:
         response = await session.post(url=url, json=json)
         if response.status != 200:
-            raise RuntimeError(f'Failed to read project data: {response.status}')
+            raise RuntimeError(f'Failed to read project data [{response.status}]')
         data = await response.json()
-    await utils.log_rate_limits(category='graphql', token=token, timeout=timeout)
+        await utils.log_rate_limits(
+            category='graphql', token=token, timeout=timeout, session=session
+        )
     return data

@@ -4,7 +4,7 @@ from typing import List, Tuple, Union
 import yaml
 from aiohttp import ClientSession, ClientTimeout
 
-logger = logging.getLogger('gunicorn.error')
+logger = logging.getLogger('xdevbot')
 
 
 def repo_fullname_from_url(url: str) -> str:
@@ -37,29 +37,36 @@ def refs_from_note(note: str) -> str:
 
 
 async def log_rate_limits(
-    category: Union[str, List[str]] = 'core', token: str = None, timeout: int = 60
+    category: Union[str, List[str]] = 'core',
+    token: str = None,
+    timeout: int = 60,
+    session: ClientSession = None,
 ) -> dict:
     if isinstance(category, str):
         category = [category]
-    headers = {'Content-Type': 'application/json'}
-    if token:
-        headers['Authorization'] = f'token {token}'
-    timeout = ClientTimeout(total=timeout)
-    async with ClientSession(headers=headers, timeout=timeout) as session:
-        response = await session.get('https://api.github.com/rate_limit')
-        if response.status == 200:
-            rates = await response.json()
-            for k in category:
-                r_k = rates['resources'][k]
-                msg = (
-                    f"{k.upper()} Rate Limits: {r_k['remaining']} remaining of {r_k['limit']} total"
-                )
-                logger.info(msg)
-        else:
-            logger.warning('Failed to retrieve rate limits')
+    if session is None:
+        close_session = True
+        headers = {'Content-Type': 'application/json'}
+        if token:
+            headers['Authorization'] = f'token {token}'
+        timeout = ClientTimeout(total=timeout)
+        session = ClientSession(headers=headers, timeout=timeout)
+    else:
+        close_session = False
+    response = await session.get('https://api.github.com/rate_limit')
+    if response.status == 200:
+        rates = await response.json()
+        for k in category:
+            r_k = rates['resources'][k]
+            msg = f"{k.upper()} Rate Limits: {r_k['remaining']} remaining of {r_k['limit']} total"
+            logger.debug(msg)
+    else:
+        logger.debug(f'Failed to retrieve rate limits [{response.status}]')
+    if close_session:
+        await session.close()
 
 
-async def read_remote_yaml(url, timeout=60):
+async def read_remote_yaml(url: str, timeout: int = 60):
     timeout = ClientTimeout(total=timeout)
     async with ClientSession(timeout=timeout) as session:
         response = await session.get(url)
