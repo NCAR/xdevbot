@@ -63,7 +63,7 @@ async def log_rate_limits(
     else:
         logger.debug(f'Failed to retrieve rate limits [{response.status}]')
     if close_session:
-        session.close()
+        await session.close()
 
 
 async def read_remote_yaml(url: str, timeout: int = 60):
