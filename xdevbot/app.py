@@ -9,7 +9,15 @@ from xdevbot import routes
 from xdevbot.polling import polling
 from xdevbot.utils import log_rate_limits
 
-logger = logging.getLogger('gunicorn.error')
+glogger = logging.getLogger('gunicorn.error')
+
+logger = logging.getLogger('xdevbot')
+logger.setLevel(glogger.level)
+formatter = logging.Formatter('[%(levelname)s:%(module)s:%(process)d] %(message)s')
+handler = logging.StreamHandler()
+handler.setFormatter(formatter)
+handler.setLevel(glogger.handlers[0].level)
+logger.addHandler(handler)
 
 
 async def init_app():

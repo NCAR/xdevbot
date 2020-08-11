@@ -1,10 +1,11 @@
+import json
 import logging
 
 from aiohttp import web
 
 from xdevbot import github, projects, queries, utils
 
-logger = logging.getLogger('gunicorn.error')
+logger = logging.getLogger('xdevbot')
 
 CONFIG_URL = 'https://raw.githubusercontent.com/NCAR/xdev/xdevbot/xdevbot.yaml'
 
@@ -20,7 +21,7 @@ async def github_handler(request: web.Request) -> web.Response:
 @github.route('pull_request', 'opened')
 async def opened(event: github.EventType):
     ref = event.payload[event.key]['html_url']
-    logger.debug(f'Received {event.key} {event.action} event: {ref}')
+    logger.debug(f'Triggered {event.key}/{event.action} event handler from {ref}')
 
     repo = event.payload['repository']['full_name']
 
@@ -28,7 +29,7 @@ async def opened(event: github.EventType):
     df = projects.build_config_frame(cfg_data)
     project_urls = df[df['repo'] == repo]['project_url'].to_list()
     if len(project_urls) == 0:
-        logger.debug(f'No projects associated with repo: {repo}')
+        logger.debug(f'No projects associated with repo {repo}')
         return web.Response()
 
     token = event.app['token']
@@ -38,14 +39,14 @@ async def opened(event: github.EventType):
 
     async with github.ProjectClientSession(token=token) as session:
         for project_url in project_urls:
-            logger.debug(f'Creating new card on project: {project_url}')
+            logger.debug(f'Creating new card on project {project_url}')
             df = columns[columns['project_url'] == project_url]
             column_id = int(df[df['column_name'] == column_name]['column_id'])
             response = await session.create_project_card(note=ref, column_id=column_id)
             if response.status != 201:
                 logger.warning(f'Failed to create new card! [{response.status}]')
-                body = await response.json()
-                logger.debug(f'Response: {body}')
+                body = json.dumps(await response.json(), indent=4)
+                logger.debug(f'HTTP Response Body:\n{body}')
 
     return web.Response()
 
@@ -56,18 +57,15 @@ async def opened(event: github.EventType):
 @github.route('pull_request', 'reopened')
 async def closed(event: github.EventType):
     ref = event.payload[event.key]['html_url']
-    content_id = event.payload[event.key]['id']
-    logger.debug(f'Received {event.key} {event.action} event: {ref}')
+    logger.debug(f'Triggered {event.key}/{event.action} event handler from {ref}')
 
     token = event.app['token']
     card_data = await github.graphql_query(queries.GET_ALL_CARDS, token=token)
     df = projects.build_cards_frame(card_data)
 
-    by_ref = df['ref'] == ref
-    by_id = df['content_id'] == content_id
-    cards = df[by_ref | by_id]
+    cards = df[df['ref'] == ref]
     if len(cards) == 0:
-        logger.debug(f'No cards found matching ref: {ref}')
+        logger.debug(f'No cards found matching ref {ref}')
         return web.Response()
 
     df_column = 'inprog_column_id' if event.action == 'reopened' else 'done_column_id'
@@ -78,6 +76,6 @@ async def closed(event: github.EventType):
             logger.debug(f'Moving card {card_id} to column {column_id}')
             response = await session.move_project_card(card_id=card_id, column_id=column_id)
             if response.status != 201:
-                logger.warning(f'Failed to move card! [{response.status}]')
+                logger.warning(f'Failed to move card [{response.status}]')
 
     return web.Response()
