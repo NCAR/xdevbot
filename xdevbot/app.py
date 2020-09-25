@@ -42,7 +42,7 @@ async def startup_background_tasks(app):
     gunicorn_nworkers = int(os.environ.get('GUNICORN_NUM_WORKERS', 0))
     gunicorn_workerid = int(os.environ.get('GUNICORN_WORKER_ID', 0))
 
-    global_period = 30
+    global_period = 15
     worker_period = global_period * gunicorn_nworkers
     worker_offset = (gunicorn_workerid - 1) * global_period
     await asyncio.sleep(worker_offset)
