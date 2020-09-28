@@ -41,7 +41,7 @@ async def log_rate_limits(
     token: str = None,
     timeout: int = 60,
     session: ClientSession = None,
-    warn_limit: float = 20,
+    warn_limit: float = 0.20,
 ) -> dict:
     if isinstance(category, str):
         category = [category]
