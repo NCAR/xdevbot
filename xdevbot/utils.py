@@ -40,34 +40,25 @@ async def log_rate_limits(
     category: Union[str, List[str]] = 'core',
     token: str = None,
     timeout: int = 60,
-    session: ClientSession = None,
-    warn_limit: float = 0.20,
 ) -> dict:
     if isinstance(category, str):
         category = [category]
-    if session is None:
-        close_session = True
-        headers = {'Content-Type': 'application/json'}
-        if token:
-            headers['Authorization'] = f'token {token}'
-        timeout = ClientTimeout(total=timeout)
-        session = ClientSession(headers=headers, timeout=timeout)
-    else:
-        close_session = False
-    response = await session.get('https://api.github.com/rate_limit')
-    if response.status == 200:
-        rates = await response.json()
-        for k in category:
-            r_k = rates['resources'][k]
-            remaining = r_k['remaining']
-            limit = r_k['limit']
-            if limit == 0 or remaining / limit < warn_limit:
-                msg = f'{k.upper()} Rate Limits: {remaining} remaining of {limit} total'
-                logger.warning(msg)
-    else:
-        logger.warning(f'Failed to retrieve rate limits [{response.status}]')
-    if close_session:
-        await session.close()
+    headers = {'Content-Type': 'application/json'}
+    if token:
+        headers['Authorization'] = f'token {token}'
+    timeout = ClientTimeout(total=timeout)
+    async with ClientSession(headers=headers, timeout=timeout) as session:
+        response = await session.get('https://api.github.com/rate_limit')
+        if response.status == 200:
+            rates = await response.json()
+            for k in category:
+                r_k = rates['resources'][k]
+                msg = (
+                    f"{k.upper()} Rate Limits: {r_k['remaining']} remaining of {r_k['limit']} total"
+                )
+                logger.info(msg)
+        else:
+            logger.warning(f'Failed to retrieve rate limits [{response.status}]')
 
 
 async def read_remote_yaml(url: str, timeout: int = 60):

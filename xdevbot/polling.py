@@ -12,6 +12,7 @@ async def polling(period=120, token=None):
     while True:
         logger.info(f'Polling GitHub API (every {period} seconds)')
         await update_nonbot_cards(token=token)
+        await utils.log_rate_limits(token=token)
         await asyncio.sleep(period)
 
 

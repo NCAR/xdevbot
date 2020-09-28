@@ -48,6 +48,8 @@ async def opened(event: github.EventType):
                 body = json.dumps(await response.json(), indent=4)
                 logger.debug(f'HTTP Response Body:\n{body}')
 
+    await utils.log_rate_limits(token=token)
+
     return web.Response()
 
 
@@ -77,5 +79,7 @@ async def closed(event: github.EventType):
             response = await session.move_project_card(card_id=card_id, column_id=column_id)
             if response.status != 201:
                 logger.warning(f'Failed to move card [{response.status}]')
+
+    await utils.log_rate_limits(token=token)
 
     return web.Response()
