@@ -4,8 +4,6 @@ from typing import Callable, Mapping
 
 from aiohttp import ClientSession, ClientTimeout, web
 
-from xdevbot import utils
-
 logger = logging.getLogger('xdevbot')
 
 _ROUTING = defaultdict(dict)
@@ -90,7 +88,6 @@ class IssueClientSession:
         return self
 
     async def __aexit__(self, exc_type, exc_value, traceback):
-        await utils.log_rate_limits(token=self.token, session=self._session)
         await self._session.close()
         return self
 
@@ -119,7 +116,6 @@ class ProjectClientSession:
         return self
 
     async def __aexit__(self, exc_type, exc_value, traceback):
-        await utils.log_rate_limits(token=self.token, session=self._session)
         await self._session.close()
         return self
 
@@ -169,7 +165,4 @@ async def graphql_query(query: str, token: str = None, timeout: int = 60) -> Map
         if response.status != 200:
             raise RuntimeError(f'Failed to read project data [{response.status}]')
         data = await response.json()
-        await utils.log_rate_limits(
-            category='graphql', token=token, timeout=timeout, session=session
-        )
     return data
