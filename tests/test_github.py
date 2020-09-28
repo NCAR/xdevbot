@@ -69,14 +69,14 @@ async def test_get_issue():
 
 @pytest.mark.skipif(TOKEN is None, reason='requires a valid GitHub token')
 async def test_graphql_query():
-    query = '{repository(name: \"xdev\", owner: \"NCAR\") { url }}'
+    query = '{repository(name: "xdev", owner: "NCAR") { url }}'
     actual = await github.graphql_query(query, token=TOKEN)
     expected = {'data': {'repository': {'url': 'https://github.com/NCAR/xdev'}}}
     assert actual == expected
 
 
 async def test_graphql_query_failure():
-    query = '{repository(name: \"xdev\", owner: \"NCAR\") { url }}'
+    query = '{repository(name: "xdev", owner: "NCAR") { url }}'
     with pytest.raises(RuntimeError):
         await github.graphql_query(query, token='asdf')
 
