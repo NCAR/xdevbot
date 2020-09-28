@@ -61,8 +61,7 @@ async def log_rate_limits(
             r_k = rates['resources'][k]
             remaining = r_k['remaining']
             limit = r_k['limit']
-            pcnt = remaining / limit
-            if pcnt < warn_limit:
+            if limit == 0 or remaining / limit < warn_limit:
                 msg = f'{k.upper()} Rate Limits: {remaining} remaining of {limit} total'
                 logger.warning(msg)
     else:
