@@ -12,7 +12,7 @@ CONFIG_URL = 'https://raw.githubusercontent.com/NCAR/xdev/xdevbot/xdevbot.yaml'
 
 async def github_handler(request: web.Request) -> web.Response:
     event = await github.Event(request)
-    logger.debug(f'Event Received: {event.type}/{event.action}')
+    logger.info(f'Event Received: {event.type}/{event.action}')
     handler = github.router(event)
     return await handler(event)
 
@@ -39,7 +39,7 @@ async def opened(event: github.EventType):
 
     async with github.ProjectClientSession(token=token) as session:
         for project_url in project_urls:
-            logger.debug(f'Creating new card on project {project_url}')
+            logger.info(f'Creating new card on project {project_url}')
             df = columns[columns['project_url'] == project_url]
             column_id = int(df[df['column_name'] == column_name]['column_id'])
             response = await session.create_project_card(note=ref, column_id=column_id)
@@ -73,7 +73,7 @@ async def closed(event: github.EventType):
         for _, card in cards.iterrows():
             card_id = int(card['card_id'])
             column_id = int(card[df_column])
-            logger.debug(f'Moving card {card_id} to column {column_id}')
+            logger.info(f'Moving card {card_id} to column {column_id}')
             response = await session.move_project_card(card_id=card_id, column_id=column_id)
             if response.status != 201:
                 logger.warning(f'Failed to move card [{response.status}]')

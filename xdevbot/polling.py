@@ -22,6 +22,7 @@ async def update_nonbot_cards(token=None):
     nonbot_cards = cards[cards['creator'] != 'xdev-bot']
     logger.debug(f'Found {len(nonbot_cards)} non-bot cards on project boards')
     num_cards_moved = 0
+    num_failures = 0
     for _, card in nonbot_cards.iterrows():
         card_id = card['card_id']
         project_url = card['project_url']
@@ -67,7 +68,10 @@ async def update_nonbot_cards(token=None):
                 if response.status == 201:
                     num_cards_moved += 1
                 else:
+                    num_failures += 1
                     logger.warning(f'Failed to move non-bot card [{response.status}]')
 
     if num_cards_moved > 0:
-        logger.info(f'Updated {num_cards_moved} non-bot cards on project boards')
+        logger.info(
+            f'Updated {num_cards_moved} non-bot cards on project boards ({num_failures} failures)'
+        )
