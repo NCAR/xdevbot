@@ -37,7 +37,9 @@ def refs_from_note(note: str) -> str:
 
 
 async def log_rate_limits(
-    category: Union[str, List[str]] = 'core', token: str = None, timeout: int = 60,
+    category: Union[str, List[str]] = 'core',
+    token: str = None,
+    timeout: int = 60,
 ) -> dict:
     if isinstance(category, str):
         category = [category]
