@@ -51,7 +51,7 @@ def router(event: EventType) -> Callable:
         logger.debug(f'GitHub route found [{event.type}/{event.action}]')
         return _ROUTING[event.type][event.action]
     else:
-        logger.debug(f'Failed to find GitHub route [{event.type}/{event.action}]')
+        logger.warning(f'Failed to find GitHub route [{event.type}/{event.action}]')
         return route_not_implemented
 
 
