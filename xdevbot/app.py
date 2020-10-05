@@ -31,6 +31,7 @@ async def init_app():
     app.on_startup.append(startup_background_tasks)
     app.on_cleanup.append(cleanup_background_tasks)
     app.router.add_post('/hooks/github/', routes.github_handler)
+    app.router.add_post('/project/hooks/github/', routes.github_handler)
 
     logger.info('Application initialization complete')
     await log_rate_limits(category=['core', 'graphql'], token=app['token'])
