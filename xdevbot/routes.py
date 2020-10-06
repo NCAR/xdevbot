@@ -83,3 +83,38 @@ async def closed(event: github.EventType):
     await utils.log_rate_limits(token=token)
 
     return web.Response()
+
+
+@github.route('project_card', 'moved')
+async def moved(event: github.EventType):
+    moved_card_id = event.payload[event.key]['id']
+    moved_column_id = event.payload[event.key]['column_id']
+
+    note = event.payload[event.key]['note']
+    refs = utils.refs_from_note(note)
+    if len(refs) != 1:
+        logger.debug(f'No cards found matching note: {note}')
+        return web.Response()
+    ref = refs[0]
+    logger.debug(f'Triggered {event.key}/{event.action} event handler from note "{note}"')
+
+    token = event.app['token']
+    all_card_data = await github.graphql_query(queries.GET_ALL_CARDS, token=token)
+    cards_df = projects.build_cards_frame(all_card_data)
+    matching_cards = cards_df[cards_df['ref'] == ref]
+    other_cards = matching_cards[matching_cards['card_id'] != moved_card_id]
+    if len(other_cards) == 0:
+        logger.debug(f'No other cards found matching ref {ref}')
+        return web.Response()
+
+    async with github.ProjectClientSession(token=token) as session:
+        for _, card in other_cards.iterrows():
+            card_id = int(card['card_id'])
+            logger.info(f'Moving card {card_id} to column {moved_column_id}')
+            response = await session.move_project_card(card_id=card_id, column_id=moved_column_id)
+            if response.status != 201:
+                logger.warning(f'Failed to move card [{response.status}]')
+
+    await utils.log_rate_limits(token=token)
+
+    return web.Response()
