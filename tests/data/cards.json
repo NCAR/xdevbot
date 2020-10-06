@@ -41,20 +41,41 @@
                                 },
                                 {
                                     "databaseId": 12,
-                                    "name": "Done",
+                                    "name": "Easy",
+                                    "cards": {
+                                        "nodes": []
+                                    }
+                                },
+                                {
+                                    "databaseId": 13,
+                                    "name": "Low Priority",
+                                    "cards": {
+                                        "nodes": []
+                                    }
+                                },
+                                {
+                                    "databaseId": 14,
+                                    "name": "High Priority",
+                                    "cards": {
+                                        "nodes": []
+                                    }
+                                },
+                                {
+                                    "databaseId": 15,
+                                    "name": "In Progress",
                                     "cards": {
                                         "nodes": [
                                             {
-                                                "databaseId": 121,
-                                                "note": "https://github.com/a/x1/pull/3",
+                                                "databaseId": 151,
+                                                "note": "https://github.com/a/x1/issues/5",
                                                 "content": null,
                                                 "creator": {
                                                     "login": "user1"
                                                 }
                                             },
                                             {
-                                                "databaseId": 122,
-                                                "note": "https://github.com/b/x2/pull/4",
+                                                "databaseId": 152,
+                                                "note": "https://github.com/b/x2/issues/6",
                                                 "content": null,
                                                 "creator": {
                                                     "login": "user2"
@@ -64,21 +85,28 @@
                                     }
                                 },
                                 {
-                                    "databaseId": 13,
-                                    "name": "In Progress",
+                                    "databaseId": 16,
+                                    "name": "Stalled",
+                                    "cards": {
+                                        "nodes": []
+                                    }
+                                },
+                                {
+                                    "databaseId": 17,
+                                    "name": "Done",
                                     "cards": {
                                         "nodes": [
                                             {
-                                                "databaseId": 131,
-                                                "note": "https://github.com/a/x1/issues/5",
+                                                "databaseId": 171,
+                                                "note": "https://github.com/a/x1/pull/3",
                                                 "content": null,
                                                 "creator": {
                                                     "login": "user1"
                                                 }
                                             },
                                             {
-                                                "databaseId": 132,
-                                                "note": "https://github.com/b/x2/issues/6",
+                                                "databaseId": 172,
+                                                "note": "https://github.com/b/x2/pull/4",
                                                 "content": null,
                                                 "creator": {
                                                     "login": "user2"
@@ -120,20 +148,41 @@
                                 },
                                 {
                                     "databaseId": 22,
-                                    "name": "Done",
+                                    "name": "Easy",
+                                    "cards": {
+                                        "nodes": []
+                                    }
+                                },
+                                {
+                                    "databaseId": 23,
+                                    "name": "Low Priority",
+                                    "cards": {
+                                        "nodes": []
+                                    }
+                                },
+                                {
+                                    "databaseId": 24,
+                                    "name": "High Priority",
+                                    "cards": {
+                                        "nodes": []
+                                    }
+                                },
+                                {
+                                    "databaseId": 25,
+                                    "name": "In Progress",
                                     "cards": {
                                         "nodes": [
                                             {
-                                                "databaseId": 221,
-                                                "note": "https://github.com/a/y1/issues/3",
+                                                "databaseId": 251,
+                                                "note": "https://github.com/a/y1/issues/5",
                                                 "content": null,
                                                 "creator": {
                                                     "login": "user1"
                                                 }
                                             },
                                             {
-                                                "databaseId": 222,
-                                                "note": "https://github.com/b/y2/issues/4",
+                                                "databaseId": 252,
+                                                "note": "https://github.com/b/y2/issues/6",
                                                 "content": null,
                                                 "creator": {
                                                     "login": "user2"
@@ -143,21 +192,28 @@
                                     }
                                 },
                                 {
-                                    "databaseId": 23,
-                                    "name": "In Progress",
+                                    "databaseId": 26,
+                                    "name": "Stalled",
+                                    "cards": {
+                                        "nodes": []
+                                    }
+                                },
+                                {
+                                    "databaseId": 27,
+                                    "name": "Done",
                                     "cards": {
                                         "nodes": [
                                             {
-                                                "databaseId": 231,
-                                                "note": "https://github.com/a/y1/issues/5",
+                                                "databaseId": 271,
+                                                "note": "https://github.com/a/y1/issues/3",
                                                 "content": null,
                                                 "creator": {
                                                     "login": "user1"
                                                 }
                                             },
                                             {
-                                                "databaseId": 232,
-                                                "note": "https://github.com/b/y2/issues/6",
+                                                "databaseId": 272,
+                                                "note": "https://github.com/b/y2/issues/4",
                                                 "content": null,
                                                 "creator": {
                                                     "login": "user2"

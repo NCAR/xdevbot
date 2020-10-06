@@ -74,20 +74,20 @@ def build_cards_frame(projects: dict) -> pd.DataFrame:
                 data['project_url'].append(url)
 
                 df = columns[columns['project_url'] == url]
-                new_column_id = int(df[df['column_name'] == 'New']['column_id'])
-                data['new_column_id'].append(new_column_id)
-                easy_column_id = int(df[df['column_name'] == 'Easy']['column_id'])
-                data['easy_column_id'].append(easy_column_id)
-                low_priority_column_id = int(df[df['column_name'] == 'Low Priority']['column_id'])
-                data['low_priority_column_id'].append(low_priority_column_id)
-                high_priority_column_id = int(df[df['column_name'] == 'High Priority']['column_id'])
-                data['high_priority_column_id'].append(high_priority_column_id)
-                in_progress_column_id = int(df[df['column_name'] == 'In Progress']['column_id'])
-                data['in_progress_column_id'].append(in_progress_column_id)
-                stalled_column_id = int(df[df['column_name'] == 'Stalled']['column_id'])
-                data['stalled_column_id'].append(stalled_column_id)
-                done_column_id = int(df[df['column_name'] == 'Done']['column_id'])
-                data['done_column_id'].append(done_column_id)
+                column_names = [
+                    'New',
+                    'Easy',
+                    'Low Priority',
+                    'High Priority',
+                    'In Progress',
+                    'Stalled',
+                    'Done',
+                ]
+                for name in column_names:
+                    ids = df[df['column_name'] == name]['column_id']
+                    id = int(ids) if len(ids) == 1 else None
+                    df_column = f'{name.lower().replace(" ", "_")}_column_id'
+                    data[df_column].append(id)
     return pd.DataFrame(data=data)
 
 

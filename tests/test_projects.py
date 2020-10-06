@@ -24,11 +24,20 @@ def test_build_cards_frame():
 
 _data = {
     'project_url': (
-        ['https://github.com/owner/repo/projects/1'] * 3
-        + ['https://github.com/owner/repo/projects/2'] * 3
+        ['https://github.com/owner/repo/projects/1'] * 7
+        + ['https://github.com/owner/repo/projects/2'] * 7
     ),
-    'column_name': ['New', 'Done', 'In Progress'] * 2,
-    'column_id': [11, 12, 13, 21, 22, 23],
+    'column_name': [
+        'New',
+        'Easy',
+        'Low Priority',
+        'High Priority',
+        'In Progress',
+        'Stalled',
+        'Done',
+    ]
+    * 2,
+    'column_id': [11, 12, 13, 14, 15, 16, 17, 21, 22, 23, 24, 25, 26, 27],
 }
 COLUMNS = pd.DataFrame(data=_data)
 
