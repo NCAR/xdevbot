@@ -21,7 +21,7 @@ async def github_handler(request: web.Request) -> web.Response:
 @github.route('pull_request', 'opened')
 async def opened(event: github.EventType):
     ref = event.payload[event.key]['html_url']
-    logger.debug(f'Triggered {event.key}/{event.action} event handler from {ref}')
+    logger.debug(f'Triggered {event.key}/{event.action} event handler from ref {ref}')
 
     repo = event.payload['repository']['full_name']
 
@@ -33,14 +33,14 @@ async def opened(event: github.EventType):
         return web.Response()
 
     token = event.app['token']
-    col_data = await github.graphql_query(queries.GET_COLUMNS, token=token)
-    columns = projects.build_columns_frame(col_data)
+    column_data = await github.graphql_query(queries.GET_COLUMNS, token=token)
+    columns_df = projects.build_columns_frame(column_data)
     column_name = 'In Progress' if event.key == 'pull_request' else 'New'
 
     async with github.ProjectClientSession(token=token) as session:
         for project_url in project_urls:
             logger.info(f'Creating new card on project {project_url}')
-            df = columns[columns['project_url'] == project_url]
+            df = columns_df[columns_df['project_url'] == project_url]
             column_id = int(df[df['column_name'] == column_name]['column_id'])
             response = await session.create_project_card(note=ref, column_id=column_id)
             if response.status != 201:
@@ -59,49 +59,20 @@ async def opened(event: github.EventType):
 @github.route('pull_request', 'reopened')
 async def closed(event: github.EventType):
     ref = event.payload[event.key]['html_url']
-    logger.debug(f'Triggered {event.key}/{event.action} event handler from {ref}')
+    logger.debug(f'Triggered {event.key}/{event.action} event handler from ref {ref}')
 
     token = event.app['token']
     card_data = await github.graphql_query(queries.GET_ALL_CARDS, token=token)
-    df = projects.build_cards_frame(card_data)
+    cards_df = projects.build_cards_frame(card_data)
 
-    cards = df[df['ref'] == ref]
-    if len(cards) == 0:
+    matching_cards = cards_df[cards_df['ref'] == ref]
+    if len(matching_cards) == 0:
         logger.debug(f'No cards found matching ref {ref}')
         return web.Response()
 
-    df_column = 'inprog_column_id' if event.action == 'reopened' else 'done_column_id'
+    df_column = 'in_progress_column_id' if event.action == 'reopened' else 'done_column_id'
     async with github.ProjectClientSession(token=token) as session:
-        for _, card in cards.iterrows():
-            card_id = int(card['card_id'])
-            column_id = int(card[df_column])
-            logger.info(f'Moving card {card_id} to column {column_id}')
-            response = await session.move_project_card(card_id=card_id, column_id=column_id)
-            if response.status != 201:
-                logger.warning(f'Failed to move card [{response.status}]')
-
-    await utils.log_rate_limits(token=token)
-
-    return web.Response()
-
-
-@github.route('project_card', 'moved')
-async def moved(event: github.EventType):
-    ref = event.payload[event.key]['html_url']
-    logger.debug(f'Triggered {event.key}/{event.action} event handler from {ref}')
-
-    token = event.app['token']
-    card_data = await github.graphql_query(queries.GET_ALL_CARDS, token=token)
-    df = projects.build_cards_frame(card_data)
-
-    cards = df[df['ref'] == ref]
-    if len(cards) == 0:
-        logger.debug(f'No cards found matching ref {ref}')
-        return web.Response()
-
-    df_column = 'inprog_column_id' if event.action == 'reopened' else 'done_column_id'
-    async with github.ProjectClientSession(token=token) as session:
-        for _, card in cards.iterrows():
+        for _, card in matching_cards.iterrows():
             card_id = int(card['card_id'])
             column_id = int(card[df_column])
             logger.info(f'Moving card {card_id} to column {column_id}')
