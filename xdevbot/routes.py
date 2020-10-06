@@ -1,3 +1,4 @@
+import asyncio
 import json
 import logging
 
@@ -47,6 +48,7 @@ async def opened(event: github.EventType):
                 logger.warning(f'Failed to create new card! [{response.status}]')
                 body = json.dumps(await response.json(), indent=4)
                 logger.debug(f'HTTP Response Body:\n{body}')
+            await asyncio.sleep(0.5)
 
     await utils.log_rate_limits(token=token)
 
@@ -79,6 +81,7 @@ async def closed(event: github.EventType):
             response = await session.move_project_card(card_id=card_id, column_id=column_id)
             if response.status != 201:
                 logger.warning(f'Failed to move card [{response.status}]')
+            await asyncio.sleep(0.5)
 
     await utils.log_rate_limits(token=token)
 
@@ -87,6 +90,10 @@ async def closed(event: github.EventType):
 
 @github.route('project_card', 'moved')
 async def moved(event: github.EventType):
+    mover = event.payload['sender']['login']
+    if mover == 'xdev-bot':
+        return web.Response()
+
     moved_card_id = event.payload[event.key]['id']
     moved_column_id = event.payload[event.key]['column_id']
 
@@ -114,6 +121,7 @@ async def moved(event: github.EventType):
             response = await session.move_project_card(card_id=card_id, column_id=moved_column_id)
             if response.status != 201:
                 logger.warning(f'Failed to move card [{response.status}]')
+            await asyncio.sleep(0.5)
 
     await utils.log_rate_limits(token=token)
 
