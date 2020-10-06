@@ -13,11 +13,27 @@
                                 },
                                 {
                                     "databaseId": 12,
-                                    "name": "Done"
+                                    "name": "Easy"
                                 },
                                 {
                                     "databaseId": 13,
+                                    "name": "Low Priority"
+                                },
+                                {
+                                    "databaseId": 14,
+                                    "name": "High Priority"
+                                },
+                                {
+                                    "databaseId": 15,
                                     "name": "In Progress"
+                                },
+                                {
+                                    "databaseId": 16,
+                                    "name": "Stalled"
+                                },
+                                {
+                                    "databaseId": 17,
+                                    "name": "Done"
                                 }
                             ]
                         }
@@ -32,11 +48,27 @@
                                 },
                                 {
                                     "databaseId": 22,
-                                    "name": "Done"
+                                    "name": "Easy"
                                 },
                                 {
                                     "databaseId": 23,
+                                    "name": "Low Priority"
+                                },
+                                {
+                                    "databaseId": 24,
+                                    "name": "High Priority"
+                                },
+                                {
+                                    "databaseId": 25,
                                     "name": "In Progress"
+                                },
+                                {
+                                    "databaseId": 26,
+                                    "name": "Stalled"
+                                },
+                                {
+                                    "databaseId": 27,
+                                    "name": "Done"
                                 }
                             ]
                         }
