@@ -48,7 +48,7 @@ async def opened(event: github.EventType):
                 logger.warning(f'Failed to create new card! [{response.status}]')
                 body = json.dumps(await response.json(), indent=4)
                 logger.debug(f'HTTP Response Body:\n{body}')
-            await asyncio.sleep(0.5)
+            await asyncio.sleep(0.1)
 
     await utils.log_rate_limits(token=token)
 
@@ -81,7 +81,7 @@ async def closed(event: github.EventType):
             response = await session.move_project_card(card_id=card_id, column_id=column_id)
             if response.status != 201:
                 logger.warning(f'Failed to move card [{response.status}]')
-            await asyncio.sleep(0.5)
+            await asyncio.sleep(0.1)
 
     await utils.log_rate_limits(token=token)
 
@@ -129,7 +129,7 @@ async def moved(event: github.EventType):
             response = await session.move_project_card(card_id=card_id, column_id=column_id)
             if response.status != 201:
                 logger.warning(f'Failed to move card [{response.status}]')
-            await asyncio.sleep(0.5)
+            await asyncio.sleep(0.1)
 
     await utils.log_rate_limits(token=token)
 
@@ -168,7 +168,7 @@ async def deleted(event: github.EventType):
             response = await session.delete_project_card(card_id=card_id)
             if response.status != 204:
                 logger.warning(f'Failed to delete card [{response.status}]')
-            await asyncio.sleep(0.5)
+            await asyncio.sleep(0.1)
 
     await utils.log_rate_limits(token=token)
 

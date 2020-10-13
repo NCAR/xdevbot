@@ -54,7 +54,7 @@ async def update_nonbot_cards(token=None):
 
         if state == 'open' and column_name == 'Done':
             logger.debug(f'Non-bot card {card_id} is open but was found in the "Done" column')
-            column_id = card['inprog_column_id']
+            column_id = card['in_progress_column_id']
         elif state != 'open' and column_name != 'Done':
             logger.debug(f'Non-bot card {card_id} is closed but wasn\'t found in the "Done" column')
             column_id = card['done_column_id']
