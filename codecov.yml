@@ -4,6 +4,9 @@ codecov:
 
 comment: false
 
+ignore:
+  - "extras"
+
 coverage:
   precision: 2
   round: down
