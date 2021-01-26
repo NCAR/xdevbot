@@ -21,7 +21,7 @@ column, newly created PRs and reopened Issues are added/moved to the
 *In Progress* column, and any closed/merged Issue/PR is moved to the
 *Done* column.
 
-A *Master* Board can be used to aggregate *all* Issues/PRs across
+A *Main* Board can be used to aggregate *all* Issues/PRs across
 all of the Boards into a single, comprehensive Project Board.
 
 This is an aiohttp_ app designed to run on Heroku_ with Gunicorn_.
@@ -42,11 +42,11 @@ To run this application locally, you need simply run:
 
 .. _Gunicorn: https://gunicorn.org/
 
-.. |CircleCI| image:: https://badgen.net/circleci/github/NCAR/xdevbot/master
+.. |CircleCI| image:: https://badgen.net/circleci/github/NCAR/xdevbot/main
     :target: https://circleci.com/gh/NCAR/xdevbot
     :alt: Tests
 
-.. |GitHub| image:: https://badgen.net/github/checks/NCAR/xdevbot/master
+.. |GitHub| image:: https://badgen.net/github/checks/NCAR/xdevbot/main
     :target: https://github.com/NCAR/xdevbot/actions?query=workflow%3Acode-style
     :alt: GitHub
 
