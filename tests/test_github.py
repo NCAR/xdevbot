@@ -96,7 +96,7 @@ async def test_issues_event(loop):
         'X-Hub-Signature': 'q3r5awfeaea',
     }
     protocol = mock.Mock(_reading_paused=False)
-    payload = streams.StreamReader(protocol=protocol, loop=loop)
+    payload = streams.StreamReader(protocol=protocol, limit=2 ** 16, loop=loop)
     payload.feed_data(PAYLOAD)
     payload.feed_eof()
     webhook_request = make_mocked_request('POST', '/', headers=headers, payload=payload)
@@ -118,7 +118,7 @@ async def test_pull_event(loop):
         'X-Hub-Signature': 'q3r5awfeaea',
     }
     protocol = mock.Mock(_reading_paused=False)
-    payload = streams.StreamReader(protocol=protocol, loop=loop)
+    payload = streams.StreamReader(protocol=protocol, limit=2 ** 16, loop=loop)
     payload.feed_data(PAYLOAD)
     payload.feed_eof()
     webhook_request = make_mocked_request('POST', '/', headers=headers, payload=payload)
